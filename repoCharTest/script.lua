@@ -46,7 +46,11 @@ skullSettings:newAction()
   :title("set skull to have black eyes §7(leftclick)§r")
   :item("ender_pearl")
   :setOnToggle(pings.toggleEyeC)  
-function pings.toggleSkullC(state)
+  skullSettings:newAction()
+  :title("set skull to just be the head §7(leftclick)§r")
+  :item("ender_pearl")
+  :setOnToggle(pings.toggleEyeC) 
+function pings.toggleSkullJH(state)
   if(state) then
   animations.Skull.crouching:play()
   else
@@ -54,6 +58,22 @@ function pings.toggleSkullC(state)
   end
 end
 function pings.toggleEyeC(state)
+  if(state) then
+    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["blackedEyes"])
+    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["blackedEyes"])
+  else
+    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["texture"])
+    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["texture"])
+  end
+  
+end
+
+function pings.toggleSkullJH(state)
+  if(state) then
+  animations.Skull.crouching:play()
+  else
+    animations.skull.crouching:stop()
+  end
 end
 -- === Chat Message Capture === --
 function pings.KorboSpeak(amount)
