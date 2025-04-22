@@ -26,8 +26,11 @@ local queue = 0
 local basePitch = 1 - voicePitchRange / 2
 local currentSound = nil
 local mouthTimer = 0
+local test = true
 local mainPage = action_wheel:newPage()
+local skullC = false
 local skullSettings = action_wheel:newPage()
+local skullO = false
 mainPage:newAction()
   :title("skull settings §7(leftclick)§r")
   :item("skeleton_skull")
@@ -41,40 +44,49 @@ skullSettings:newAction()
 skullSettings:newAction()
     :title("set skull to be crouched §7(leftclick)§r")
     :item("chest")
-    :setOnToggle(pings.toggleSkullC)  
+    :onLeftClick(function()
+    
+    if skullC then
+      animations.Skull.crouching:play()
+      skullC = false
+      else
+        animations.Skull.crouching:stop()
+        skullC = true
+      end 
+    end)
 skullSettings:newAction()
   :title("set skull to have black eyes §7(leftclick)§r")
   :item("ender_pearl")
-  :setOnToggle(pings.toggleEyeC)  
-  skullSettings:newAction()
+  :onLeftClick(function() 
+    if test then
+      models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["blackedEyes"])
+      models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["blackedEyes"])
+      test = false
+    else
+      models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["texture"])
+      models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["texture"])
+      print(test)
+      test = false
+    end
+  end)
+skullSettings:newAction()
   :title("set skull to just be the head §7(leftclick)§r")
   :item("ender_pearl")
+  :onLeftClick(function()
+    if skullO then
+      models.Skull.root:setVisible(false)
+      models.Skull.skullHead:setVisible(true)
+      skullO = false
+    else
+      models.Skull.root:setVisible(true)
+      models.Skull.skullHead:setVisible(false)
+      skullO = true
+    end
+  end)
   :setOnToggle(pings.toggleEyeC) 
-function pings.toggleSkullJH(state)
-  if(state) then
-  animations.Skull.crouching:play()
-  else
-    animations.skull.crouching:stop()
-  end
-end
-function pings.toggleEyeC(state)
-  if(state) then
-    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["blackedEyes"])
-    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["blackedEyes"])
-  else
-    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", textures["texture"])
-    models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", textures["texture"])
-  end
-  
-end
 
-function pings.toggleSkullJH(state)
-  if(state) then
-  animations.Skull.crouching:play()
-  else
-    animations.skull.crouching:stop()
-  end
-end
+
+
 -- === Chat Message Capture === --
 function pings.KorboSpeak(amount)
   if player:isLoaded() then
