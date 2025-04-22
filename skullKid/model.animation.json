@@ -1,0 +1,36 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"walks": {
+			"loop": true,
+			"animation_length": 0.5833,
+			"override_previous_animation": true,
+			"bones": {
+				"left_arm": {
+					"rotation": {
+						"0.0833": ["math.sin(query.anim_time * 360) * 50", 0, 0],
+						"0.5833": ["math.sin(query.anim_time * 360) * -50", 0, 0]
+					}
+				},
+				"right_arm": {
+					"rotation": {
+						"0.0833": ["math.sin(query.anim_time * 360) * -50", 0, 0],
+						"0.5833": ["math.sin(query.anim_time * 360) * 50", 0, 0]
+					}
+				},
+				"left_leg": {
+					"rotation": {
+						"0.0833": ["math.sin(query.anim_time * 360) * 50", 0, 0],
+						"0.5833": ["math.sin(query.anim_time * 360) * -50", 0, 0]
+					}
+				},
+				"right_leg": {
+					"rotation": {
+						"0.0833": ["math.sin(query.anim_time * 360) * -50", 0, 0],
+						"0.5833": ["math.sin(query.anim_time * 360) * 50", 0, 0]
+					}
+				}
+			}
+		}
+	}
+}
