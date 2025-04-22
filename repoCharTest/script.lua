@@ -29,17 +29,31 @@ local mouthTimer = 0
 local mainPage = action_wheel:newPage()
 local skullSettings = action_wheel:newPage()
 mainPage:newAction()
-  :title("skull settings")
+  :title("skull settings §7(leftclick)§r")
   :item("skeleton_skull")
   :onLeftClick(function() action_wheel:setPage(skullSettings)
   end)
 action_wheel:setPage(mainPage)
 skullSettings:newAction()
-    :title("set skull to be crouched")
+    :title("go back §7(leftclick)§r")
+    :item("barrier")
+    :onLeftClick(function() action_wheel:setPage(mainPage) end) 
+skullSettings:newAction()
+    :title("set skull to be crouched §7(leftclick)§r")
     :item("chest")
-    :setOnToggle(pings.toggleSkullC)    
+    :setOnToggle(pings.toggleSkullC)  
+skullSettings:newAction()
+  :title("set skull to have black eyes §7(leftclick)§r")
+  :item("ender_pearl")
+  :setOnToggle(pings.toggleEyeC)  
 function pings.toggleSkullC(state)
-  
+  if(state) then
+  animations.Skull.crouching:play()
+  else
+    animations.skull.crouching:stop()
+  end
+end
+function pings.toggleEyeC(state)
 end
 -- === Chat Message Capture === --
 function pings.KorboSpeak(amount)
