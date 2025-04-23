@@ -135,6 +135,11 @@ end
 
 -- === Tick Event === --
 function events.tick()
+  if player:getSwingTime() > 0 then
+    animations.RepoTest.PunchTest:play()
+  else
+    animations.RepoTest.PunchTest:stop()
+  end
   -- Voice sound system
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
     queue = queue - 1
