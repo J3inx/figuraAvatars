@@ -77,6 +77,13 @@ skullSettings:newAction()
 action_wheel:setPage(mainPage)
 
 -- === Animation Functions === --
+function events.item_render(item)
+  if item.id == "minecraft.crossbow" then
+    animations.RepoTest.holdItemOut:plaY()
+  else
+    animations.RepoTest.holdItemOut:stop()
+  end
+end
 function playSkullCrouchAnimation(state)
   if state then
     animations.Skull.crouching:stop()
