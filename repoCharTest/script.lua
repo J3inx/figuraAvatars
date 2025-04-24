@@ -94,6 +94,8 @@ function playSkullCrouchAnimation(state)
 end
 
 function setEyeTexture(blacked)
+  --broken to my knowledge, texture exists and is recognized by head2 but doesnt seem to be accepted for the eyes in skull
+  --used to work but recently stopped, so maybe look through old commits
   local tex = blacked and textures["change"] or textures["texture"]
   models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", textures[tex])
   
