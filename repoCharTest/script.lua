@@ -61,7 +61,8 @@ skullSettings:newAction()
   :item("ender_pearl")
   :onLeftClick(function()
     eyeBlack = not eyeBlack
-    pings.setEyeTexture(eyeBlack)
+    --WHY DID THIS BREAK?!?
+    --pings.setEyeTexture(eyeBlack)
     setEyeTexture(eyeBlack)
   end)
 
@@ -93,9 +94,9 @@ function playSkullCrouchAnimation(state)
 end
 
 function setEyeTexture(blacked)
-  local tex = blacked and textures["blackedEyes"] or textures["texture"]
-  models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeL:primaryTexture("CUSTOM", tex)
-  models.Skull.root.spine.butt.abdomen.neck.head.eyes.eyeR:primaryTexture("CUSTOM", tex)
+  local tex = blacked and textures["change"] or textures["texture"]
+  models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", tex)
+  
 end
 
 function setHeadOnlyMode(enabled)
@@ -135,11 +136,6 @@ end
 
 -- === Tick Event === --
 function events.tick()
-  if player:getSwingTime() > 0 then
-    animations.RepoTest.PunchTest:play()
-  else
-    animations.RepoTest.PunchTest:stop()
-  end
   -- Voice sound system
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
     queue = queue - 1
