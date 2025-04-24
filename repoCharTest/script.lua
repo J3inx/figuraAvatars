@@ -95,7 +95,7 @@ end
 
 function setEyeTexture(blacked)
   local tex = blacked and textures["change"] or textures["texture"]
-  models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", tex)
+  models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", textures[tex])
   
 end
 
