@@ -13,7 +13,7 @@ camera.keybindEnable = true
 camera.cameraEnable = true
 
 -- Voice Sound Settings
-local voiceSounds = { "a_sound", "e_sound", "i_sound", "o_sound", "u_sound" }
+local voiceSounds = { "a_sound", "i_sound", "o_sound", "u_sound" }
 local voiceSpeechRate = 2
 local voiceVolume = 1
 local voicePitchRange = 0.7
@@ -35,13 +35,22 @@ local eyeBlack = false
 -- Action Pages
 local mainPage = action_wheel:newPage()
 local skullSettings = action_wheel:newPage()
+local rendererModes = action_wheel:newPage()
 
+-- keep this as a toggle :models.RepoTest:setPrimaryRenderType("END_PORTAL")
+models.RepoTest:setPrimaryRenderType("cutout_cull")
 -- === Action Wheel Setup === --
 mainPage:newAction()
+--half of these are broken:
   :title("skull settings §7(leftclick)§r")
   :item("skeleton_skull")
   :onLeftClick(function() action_wheel:setPage(skullSettings) end)
-
+  mainPage:newAction()
+  --half of these are broken:
+    :title("render settings §7(leftclick)§r")
+    :item("player_head")
+    :onLeftClick(function() action_wheel:setPage(rendererModes) end)
+  
 skullSettings:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
@@ -75,8 +84,46 @@ skullSettings:newAction()
     setHeadOnlyMode(skullO)
   end)
 
+  rendererModes:newAction()
+  :title("go back §7(leftclick)§r")
+  :item("barrier")
+  :onLeftClick(function() 
+    action_wheel:setPage(mainPage)
+
+     end)
+rendererModes:newAction()
+  :title("set render mode to ender poral §7(leftclick)§r")
+  :item("ender_pearl")
+  :onLeftClick(function()
+    pings.Rend()
+
+    end)
+rendererModes:newAction()
+  :title("set render mode to cell shader §7(leftclick)§r")
+  :item("black_wool")
+  :onLeftClick(function()
+     pings.Rcut()
+
+    end)
+rendererModes:newAction()
+  :title("set render mode to none §7(leftclick)§r")
+  :item("red_wool")
+  :onLeftClick(function() 
+    pings.Rnone ()
+
+  end)
+  
 action_wheel:setPage(mainPage)
 
+pings.Rend = function()
+  models.RepoTest:setPrimaryRenderType("END_PORTAL") 
+end
+pings.Rcut = function()
+  models.RepoTest:setPrimaryRenderType("CUTOUT_CULL")
+end
+pings.Rnone = function()
+  models.RepoTest:setPrimaryRenderType("none")
+end
 -- === Animation Functions === --
 function events.item_render(item)
   if item.id == "minecraft.crossbow" then
