@@ -62,7 +62,7 @@ skullSettings:newAction()
   :onLeftClick(function()
     eyeBlack = not eyeBlack
     --WHY DID THIS BREAK?!?
-    --pings.setEyeTexture(eyeBlack)
+    pings.setEyeTexture(eyeBlack)
     setEyeTexture(eyeBlack)
   end)
 
@@ -96,9 +96,11 @@ end
 function setEyeTexture(blacked)
   --broken to my knowledge, texture exists and is recognized by head2 but doesnt seem to be accepted for the eyes in skull
   --used to work but recently stopped, so maybe look through old commits
-  local tex = blacked and textures["change"] or textures["texture"]
+  local tex = blacked and textures["blackedEyes"] or textures["texture"]
+  --quick debugs to check for next time
+  ptint(tex:getName())
   models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", textures[tex])
-  
+  print(tex:getPath())
 end
 
 function setHeadOnlyMode(enabled)
