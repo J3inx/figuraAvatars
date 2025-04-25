@@ -37,6 +37,7 @@ local mainPage = action_wheel:newPage()
 local skullSettings = action_wheel:newPage()
 local rendererModes = action_wheel:newPage()
 local funPage = action_wheel:newPage()
+local colorsPage = action_wheel:newPage()
 local cosmic = false
 local visibility = true
 local norm = true
@@ -81,6 +82,56 @@ skullSettings:newAction()
     visibility = state
     pings.togglename2(state)
   end)
+
+funPage:newAction()
+  :title("character colors §7(leftclick)§r")
+  :item("blue_concrete")
+  :onLeftClick(function() action_wheel:setPage(colorsPage) end)
+  colorsPage:newAction()
+  :title("go back §7(leftclick)§r")
+  :item("barrier")
+  :onLeftClick(function() action_wheel:setPage(funPage) end)
+  colorsPage:newAction()
+  :title("change red color §7(leftclick)§r")
+  :item("red_wool")
+  :setOnScroll(RedScrollFunction())
+  function pings.RedScrollFunction(dir)
+    if dir > 0 then
+        selectedCR = selectedCR + 1
+    else
+      selectedCR = selectedCR - 1
+    end
+end
+colorsPage:newAction()
+:title("change green color §7(leftclick)§r")
+:item("green_wool")
+:setOnScroll(GreenScrollFunction())
+function pings.GreenScrollFunction(dir)
+  if dir > 0 then
+      selectedCG = selectedCG + 1
+  else
+    selectedCG = selectedCG - 1
+  end
+end
+colorsPage:newAction()
+:title("change blue color §7(leftclick)§r")
+:item("blue_wool")
+:setOnScroll(BlueScrollFunction())
+function pings.BlueScrollFunction(dir)
+  if dir > 0 then
+      selectedCB = selectedCB + 1
+  else
+    selectedCB = selectedCB - 1
+  end
+end
+colorsPage:newAction()
+:title("reset color values §7(leftclick)§r")
+:item("arrow")
+:onLeftClick(function()
+  selectedCR = 146
+  selectedCG = 17
+  selectedCB = 18
+end)
 funPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
