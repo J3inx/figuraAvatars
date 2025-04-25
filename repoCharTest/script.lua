@@ -42,6 +42,7 @@ local cosmic = false
 local visibility = true
 local norm = true
 local none = false
+local lines = false
 --misc
 local selectedCR = 146
 local selectedCG = 17
@@ -167,10 +168,17 @@ rendererModes:newAction()
 
      end)
 rendererModes:newAction()
-  :title("set render mode to ender portal §7(leftclick)§r")
+  :title("set render mode to ender gateway §7(leftclick)§r")
   :item("ender_pearl")
   :onLeftClick(function()
     pings.Rend()
+
+    end)
+    rendererModes:newAction()
+  :title("set render mode to hitbox §7(leftclick)§r")
+  :item("string")
+  :onLeftClick(function()
+    pings.Rlines()
 
     end)
 rendererModes:newAction()
@@ -205,12 +213,29 @@ pings.togglename2 = function(state)
   print("Toggle called. Visibility set to:", state)
   visibility = state
 end
-
+pings.Rline = function()
+  if  line == false then
+    line = true
+      if none then
+        none = false
+      end
+      if cosmic then
+        cosmic= false
+      end
+      if norm then
+        norm= false
+      end
+    
+  end
+end
 pings.Rcut = function()
   if norm == false then
     norm = true
       if none then
         none = false
+      end
+      if line then 
+        line = false
       end
       if cosmic then
         cosmic= false
@@ -227,6 +252,9 @@ pings.Rnone = function()
       end
       if cosmic then
         cosmic= false
+      end
+      if line then 
+        line = false
       end
     
   end
@@ -359,7 +387,7 @@ events.RENDER:register(function(delta)
   --print("Entity Nameplate:", nameplate.ENTITY) -- should not be nil
 
   if cosmic then
-    models.RepoTest:setPrimaryRenderType("END_PORTAL") 
+    models.RepoTest:setPrimaryRenderType("END_GATEWAY") 
   end
   if norm then
     models.RepoTest:setPrimaryRenderType("cutout_cull")
@@ -367,12 +395,15 @@ events.RENDER:register(function(delta)
   if none then
     models.RepoTest:setPrimaryRenderType("none")
   end
+  if line then
+    models.RepoTest:setPrimaryRenderType("LINES_STRIP")
+  end
   local camRot = player:getRot()
   local bodyYaw = player:getBodyYaw()
   local pitch = -camRot[1]
   local yawDiff = -(camRot[2] - bodyYaw)
   local yaw = (yawDiff + 180) % 360 - 180
-
+  renderer:setRenderCrosshair(true)
   local neckMaxPitch = 30
   local neckMaxYaw = 30
   local neckPitch = math.clamp(pitch, -neckMaxPitch, neckMaxPitch)

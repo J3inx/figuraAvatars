@@ -12,36 +12,34 @@ FunPage:newAction()
 :item("white_concrete")
 :toggleItem("white_stained_glass")
 :onToggle(pings.Cloak)
-
-vis = 1
-
-Cloaked = false
 function pings.Cloak(state)
 Cloaked = state
 end
 
 function events.tick()
 if Cloaked then
-if player:getPose() ~= "CROUCHING" then
-if vis > 0.26 then
-vis = vis - 0.05
-elseif vis < 0.24 then
-vis = vis + 0.05
-end
+    
+    if player:getPose() ~= "CROUCHING" then
+        if vis > 0.26 then
+            vis = vis - 0.05
+            models.testBed:setSecondaryRenderType(nil)
+        elseif vis < 0.24 then
+            vis = vis + 0.05
+        end
 
-elseif vis > 0.05 then
-vis = vis - 0.05
-end
+    elseif vis > 0.05 then
+        vis = vis - 0.05
+    end
 
-else
+    else
+        models.testBed:setSecondaryRenderType("GLINT2")
+        if vis < 1 then
+            vis = vis + 0.05
+        end
+    end
 
-if vis < 1 then
-vis = vis + 0.05
-end
-end
-
-models.model:setOpacity(vis)
-renderer:setShadowRadius(0.75 * 0.5 * vis)
+    models.model:setOpacity(vis)
+    renderer:setShadowRadius(0.75 * 0.5 * vis)
 
 end
 
