@@ -41,7 +41,10 @@ local cosmic = false
 local visibility = true
 local norm = true
 local none = false
-
+--misc
+local selectedCR = 146
+local selectedCG = 17
+local selectedCB = 18
 -- keep this as a toggle :models.RepoTest:setPrimaryRenderType("END_PORTAL")
 models.RepoTest:setPrimaryRenderType("cutout_cull")
 -- === Action Wheel Setup === --
@@ -67,24 +70,7 @@ skullSettings:newAction()
   :item("barrier")
   :onLeftClick(function() action_wheel:setPage(mainPage) end)
 
-skullSettings:newAction()
-  :title("set skull to be crouched §7(leftclick)§r")
-  :item("chest")
-  :onLeftClick(function()
-    skullC = not skullC
-    pings.setSkullCrouch(skullC)
-    playSkullCrouchAnimation(skullC)
-  end)
 
-skullSettings:newAction()
-  :title("set skull to have black eyes §7(leftclick)§r")
-  :item("ender_pearl")
-  :onLeftClick(function()
-    eyeBlack = not eyeBlack
-    --WHY DID THIS BREAK?!?
-    pings.setEyeTexture(eyeBlack)
-    setEyeTexture(eyeBlack)
-  end)
   local togglename = funPage:newAction()
   :title("Hide Name")
   :toggleTitle("Show Name")
@@ -104,18 +90,6 @@ funPage:newAction()
   :item("white_wool")
   :setOnToggle(function(state)
     pings.toggleBoffum(state)
-  end)
-  
-  
-
-
-skullSettings:newAction()
-  :title("set skull to just be the head §7(leftclick)§r")
-  :item("ender_pearl")
-  :onLeftClick(function()
-    skullO = not skullO
-    pings.setHeadOnly(skullO)
-    setHeadOnlyMode(skullO)
   end)
 pings.toggleBoffum = function(state)
 if state then
@@ -309,6 +283,15 @@ end
 local temp =
 -- === Render Handler === --
 events.RENDER:register(function(delta)
+
+  if not selectedCR == 146 and not selectedCG == 17 and not selectedCB == 18 then
+    for x = 0, 512 do  
+    for i = 0, 512 do
+      setPixel(i, x, selectedCR, selectedCG, selectedCB)
+    end
+    end
+  end
+
   if visibility then
     nameplate.ENTITY:setVisible(true)
   else
