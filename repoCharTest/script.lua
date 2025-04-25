@@ -140,6 +140,12 @@ funPage:newAction()
   :title("turn off name and disappear §7(leftclick)§r")
   :item("white_wool")
   :setOnToggle(function(state)
+    if state then
+      host.sendChatMessage("bingo i got action")
+      host.sendChatMessage("cloak and run!")
+    else
+      host.sendChatMessage("cloak deactivated")
+    end
     pings.toggleBoffum(state)
   end)
 pings.toggleBoffum = function(state)
