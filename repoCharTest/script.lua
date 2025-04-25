@@ -36,6 +36,7 @@ local eyeBlack = false
 local mainPage = action_wheel:newPage()
 local skullSettings = action_wheel:newPage()
 local rendererModes = action_wheel:newPage()
+local funPage = action_wheel:newPage()
 local cosmic = false
 local visibility = true
 local norm = true
@@ -44,6 +45,12 @@ local none = false
 -- keep this as a toggle :models.RepoTest:setPrimaryRenderType("END_PORTAL")
 models.RepoTest:setPrimaryRenderType("cutout_cull")
 -- === Action Wheel Setup === --
+mainPage:newAction()
+:title("go to fun page §7(leftclick)§r")
+:item("cake")
+:onLeftClick(function()
+  action_wheel:setPage(funPage)
+end)
 mainPage:newAction()
 --half of these are broken:
   :title("skull settings §7(leftclick)§r")
@@ -78,7 +85,7 @@ skullSettings:newAction()
     pings.setEyeTexture(eyeBlack)
     setEyeTexture(eyeBlack)
   end)
-  local togglename = mainPage:newAction()
+  local togglename = funPage:newAction()
   :title("Hide Name")
   :toggleTitle("Show Name")
   :item("air")
@@ -88,7 +95,18 @@ skullSettings:newAction()
     visibility = state
     pings.togglename2(state)
   end)
-
+funPage:newAction()
+  :title("go back §7(leftclick)§r")
+  :item("barrier")
+  :onLeftClick(function() action_wheel:setPage(mainPage) end)
+  funPage:newAction()
+  :title("turn off name and disappear §7(leftclick)§r")
+  :item("white_wool")
+  :setOnToggle(function(state)
+    pings.toggleBoffum(state)
+  end)
+  
+  
 
 
 skullSettings:newAction()
@@ -99,8 +117,18 @@ skullSettings:newAction()
     pings.setHeadOnly(skullO)
     setHeadOnlyMode(skullO)
   end)
-
-  rendererModes:newAction()
+pings.toggleBoffum = function(state)
+if state then
+  print("Toggle called. Visibility set to:", state)
+  visibility = false
+  pings.Rnone ()
+else
+  visibility = true
+  norm = true
+  none = false
+end
+end
+rendererModes:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
   :onLeftClick(function() 
