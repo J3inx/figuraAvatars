@@ -351,7 +351,9 @@ events.RENDER:register(function(delta)
 
   if visibility then
     nameplate.ENTITY:setVisible(true)
+    setShadowRadius()
   else
+    setShadowRadius(0.001)
     nameplate.ENTITY:setVisible(false)
   end
   --print("Entity Nameplate:", nameplate.ENTITY) -- should not be nil
