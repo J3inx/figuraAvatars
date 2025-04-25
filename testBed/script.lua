@@ -4,43 +4,47 @@ vanilla_model.ARMOR:setVisible(false)
 vanilla_model.CAPE:setVisible(false)
 vanilla_model.ELYTRA:setVisible(false)
 vanilla_model.HELMET_ITEM:setVisible(true)
+local vis = 1
+local cloaked = false
+local FunPage = action_wheel:newPage()
+FunPage:newAction()
+:title("Toggle Cloaking")
+:item("white_concrete")
+:toggleItem("white_stained_glass")
+:onToggle(pings.Cloak)
 
--- === Walking and Eating Sound System === --
+vis = 1
 
--- Walking sound setup
-local stepTimer = 0
-local stepInterval = 6
-
--- Eating sound setup
-local eatingVolume = 1
-local eatingPitchRange = 0.7
-local eatingBasePitch = 1 - eatingPitchRange / 2
-local currentEatingSound = nil
-local eatingTimer = 0
+Cloaked = false
+function pings.Cloak(state)
+Cloaked = state
+end
 
 function events.tick()
-  -- Walking sound system
-  local walking = player:getVelocity().xz:length() > 0.01
-  stepTimer = stepTimer + 1
-  if walking and stepTimer >= stepInterval then
-    stepTimer = 0
-    sounds:playSound("entity.iron_golem.step", player:getPos(), 1, 1.5)
-  end
+if Cloaked then
+if player:getPose() ~= "CROUCHING" then
+if vis > 0.26 then
+vis = vis - 0.05
+elseif vis < 0.24 then
+vis = vis + 0.05
+end
 
-  -- Eating sound system
-  local isEating = player:isUsingItem() and player:getActiveItem():getUseAction() == "EAT"
-  if isEating then
-    eatingTimer = eatingTimer - 1
-    if eatingTimer <= 0 then
-      if currentEatingSound then currentEatingSound:stop() end
-      currentEatingSound = sounds:playSound("entity.iron_golem.hurt", player:getPos(), eatingVolume, eatingBasePitch + math.random() * eatingPitchRange)
-      eatingTimer = 10
-    end
-  else
-    eatingTimer = 0
-    if currentEatingSound then
-      currentEatingSound:stop()
-      currentEatingSound = nil
-    end
-  end
+elseif vis > 0.05 then
+vis = vis - 0.05
+end
+
+else
+
+if vis < 1 then
+vis = vis + 0.05
+end
+end
+
+models.model:setOpacity(vis)
+renderer:setShadowRadius(0.75 * 0.5 * vis)
+
+end
+
+function events.tick()
+  
 end

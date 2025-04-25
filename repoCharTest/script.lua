@@ -36,6 +36,10 @@ local eyeBlack = false
 local mainPage = action_wheel:newPage()
 local skullSettings = action_wheel:newPage()
 local rendererModes = action_wheel:newPage()
+local cosmic = false
+local visibility = true
+local norm = true
+local none = false
 
 -- keep this as a toggle :models.RepoTest:setPrimaryRenderType("END_PORTAL")
 models.RepoTest:setPrimaryRenderType("cutout_cull")
@@ -74,6 +78,18 @@ skullSettings:newAction()
     pings.setEyeTexture(eyeBlack)
     setEyeTexture(eyeBlack)
   end)
+  local togglename = mainPage:newAction()
+  :title("Hide Name")
+  :toggleTitle("Show Name")
+  :item("air")
+  --:toggle(true)
+  :setOnToggle(function(state)
+    print("Toggled nameplate visibility to:", state)
+    visibility = state
+    pings.togglename2(state)
+  end)
+
+
 
 skullSettings:newAction()
   :title("set skull to just be the head §7(leftclick)§r")
@@ -92,7 +108,7 @@ skullSettings:newAction()
 
      end)
 rendererModes:newAction()
-  :title("set render mode to ender poral §7(leftclick)§r")
+  :title("set render mode to ender portal §7(leftclick)§r")
   :item("ender_pearl")
   :onLeftClick(function()
     pings.Rend()
@@ -116,13 +132,46 @@ rendererModes:newAction()
 action_wheel:setPage(mainPage)
 
 pings.Rend = function()
-  models.RepoTest:setPrimaryRenderType("END_PORTAL") 
+  if cosmic == false then
+    cosmic = true
+    if none then
+      none = false
+    end
+    if norm then
+      norm = false
+    end
+  end
 end
+pings.togglename2 = function(state)
+  print("Toggle called. Visibility set to:", state)
+  visibility = state
+end
+
 pings.Rcut = function()
-  models.RepoTest:setPrimaryRenderType("CUTOUT_CULL")
+  if norm == false then
+    norm = true
+      if none then
+        none = false
+      end
+      if cosmic then
+        cosmic= false
+      end
+    
+  end
+
 end
 pings.Rnone = function()
-  models.RepoTest:setPrimaryRenderType("none")
+  if none == false then
+    none = true
+      if norm then
+        norm = false
+      end
+      if cosmic then
+        cosmic= false
+      end
+    
+  end
+  
 end
 -- === Animation Functions === --
 function events.item_render(item)
@@ -229,9 +278,25 @@ end
 function math.clamp(value, min, max)
   return math.max(min, math.min(max, value))
 end
-
+local temp =
 -- === Render Handler === --
 events.RENDER:register(function(delta)
+  if visibility then
+    nameplate.ENTITY:setVisible(true)
+  else
+    nameplate.ENTITY:setVisible(false)
+  end
+  --print("Entity Nameplate:", nameplate.ENTITY) -- should not be nil
+
+  if cosmic then
+    models.RepoTest:setPrimaryRenderType("END_PORTAL") 
+  end
+  if norm then
+    models.RepoTest:setPrimaryRenderType("cutout_cull")
+  end
+  if none then
+    models.RepoTest:setPrimaryRenderType("none")
+  end
   local camRot = player:getRot()
   local bodyYaw = player:getBodyYaw()
   local pitch = -camRot[1]
