@@ -134,6 +134,15 @@ colorsPage:newAction()
     Sblue = 0.004
     
   end)
+  colorsPage:newAction()
+  :title("set color to black §7(leftclick)§r")
+  :item("black_wool")
+  :onLeftClick(function()
+    Sred = 0
+    Sgreen = 0
+    Sblue = 0
+    
+  end)
 funPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
