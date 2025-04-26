@@ -44,9 +44,13 @@ local norm = true
 local none = false
 local lines = false
 --misc
-local selectedCR = 146
-local selectedCG = 17
-local selectedCB = 18
+local red = true
+local green = false
+local blue = false
+
+Sred = 0.5325
+    Sgreen = 0.0736
+    Sblue = 0.0766  
 -- keep this as a toggle :models.RepoTest:setPrimaryRenderType("END_PORTAL")
 models.RepoTest:setPrimaryRenderType("cutout_cull")
 -- === Action Wheel Setup === --
@@ -77,7 +81,6 @@ skullSettings:newAction()
   :title("Hide Name")
   :toggleTitle("Show Name")
   :item("air")
-  --:toggle(true)
   :setOnToggle(function(state)
     print("Toggled nameplate visibility to:", state)
     visibility = state
@@ -92,47 +95,45 @@ funPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
   :onLeftClick(function() action_wheel:setPage(funPage) end)
-  colorsPage:newAction()
-  :title("change red color §7(leftclick)§r")
+  
+colorsPage:newAction()
+  :title("set color to red §7(leftclick)§r")
   :item("red_wool")
-  :setOnScroll(RedScrollFunction())
-  function pings.RedScrollFunction(dir)
-    if dir > 0 then
-        selectedCR = selectedCR + 1
-    else
-      selectedCR = selectedCR - 1
-    end
-end
-colorsPage:newAction()
-:title("change green color §7(leftclick)§r")
-:item("green_wool")
-:setOnScroll(GreenScrollFunction())
-function pings.GreenScrollFunction(dir)
-  if dir > 0 then
-      selectedCG = selectedCG + 1
-  else
-    selectedCG = selectedCG - 1
-  end
-end
-colorsPage:newAction()
-:title("change blue color §7(leftclick)§r")
-:item("blue_wool")
-:setOnScroll(BlueScrollFunction())
-function pings.BlueScrollFunction(dir)
-  if dir > 0 then
-      selectedCB = selectedCB + 1
-  else
-    selectedCB = selectedCB - 1
-  end
-end
-colorsPage:newAction()
-:title("reset color values §7(leftclick)§r")
-:item("arrow")
-:onLeftClick(function()
-  selectedCR = 146
-  selectedCG = 17
-  selectedCB = 18
-end)
+  :onLeftClick(function()
+    Sred = 0.5325
+    Sgreen = 0.0736
+    Sblue = 0.0766    
+  end)
+  colorsPage:newAction()
+  :title("set color to purple §7(leftclick)§r")
+  :item("purple_wool")
+  :onLeftClick(function()
+    Sred = 0.3667
+    Sgreen = 0.0033
+    Sblue = 0.3834  
+  end)
+ 
+  
+
+
+  colorsPage:newAction()
+  :title("set color to blue §7(leftclick)§r")
+  :item("blue_wool")
+  :onLeftClick(function() 
+    Sred = 0.1900
+    Sgreen = 0.1900
+    Sblue = 0.4777
+    
+  end)
+  colorsPage:newAction()
+  :title("set color to green §7(leftclick)§r")
+  :item("green_wool")
+  :onLeftClick(function()
+    Sred = 0.361
+    Sgreen = 0.553
+    Sblue = 0.004
+    
+  end)
 funPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
@@ -142,10 +143,10 @@ funPage:newAction()
   :item("white_wool")
   :setOnToggle(function(state)
     if state then
-      host.sendChatMessage("bingo i got action")
-      host.sendChatMessage("cloak and run!")
+      host:sendChatMessage("bingo i got action")
+      host:sendChatMessage("cloak and run!")
     else
-      host.sendChatMessage("cloak deactivated")
+      host:sendChatMessage("cloak deactivated")
     end
     pings.toggleBoffum(state)
   end)
@@ -153,7 +154,7 @@ pings.toggleBoffum = function(state)
 if state then
   print("Toggle called. Visibility set to:", state)
   visibility = false
-  pings.Rnone ()
+  pings.Rnone()
 else
   visibility = true
   norm = true
@@ -165,101 +166,74 @@ rendererModes:newAction()
   :item("barrier")
   :onLeftClick(function() 
     action_wheel:setPage(mainPage)
-
      end)
 rendererModes:newAction()
   :title("set render mode to ender gateway §7(leftclick)§r")
   :item("ender_pearl")
   :onLeftClick(function()
     pings.Rend()
-
     end)
-    rendererModes:newAction()
+rendererModes:newAction()
   :title("set render mode to hitbox §7(leftclick)§r")
   :item("string")
   :onLeftClick(function()
-    pings.Rlines()
-
+    pings.Rline()
     end)
 rendererModes:newAction()
   :title("set render mode to cell shader §7(leftclick)§r")
   :item("black_wool")
   :onLeftClick(function()
      pings.Rcut()
-
     end)
 rendererModes:newAction()
   :title("set render mode to none §7(leftclick)§r")
   :item("red_wool")
   :onLeftClick(function() 
-    pings.Rnone ()
-
+    pings.Rnone()
   end)
-  
 action_wheel:setPage(mainPage)
 
 pings.Rend = function()
-  if cosmic == false then
+  if not cosmic then
     cosmic = true
-    if none then
-      none = false
-    end
-    if norm then
-      norm = false
-    end
+    none = false
+    norm = false
+    lines = false
   end
 end
+
 pings.togglename2 = function(state)
   print("Toggle called. Visibility set to:", state)
   visibility = state
 end
-pings.Rline = function()
-  if  line == false then
-    line = true
-      if none then
-        none = false
-      end
-      if cosmic then
-        cosmic= false
-      end
-      if norm then
-        norm= false
-      end
-    
-  end
-end
-pings.Rcut = function()
-  if norm == false then
-    norm = true
-      if none then
-        none = false
-      end
-      if line then 
-        line = false
-      end
-      if cosmic then
-        cosmic= false
-      end
-    
-  end
 
-end
-pings.Rnone = function()
-  if none == false then
-    none = true
-      if norm then
-        norm = false
-      end
-      if cosmic then
-        cosmic= false
-      end
-      if line then 
-        line = false
-      end
-    
+pings.Rline = function()
+  if not lines then
+    lines = true
+    none = false
+    cosmic = false
+    norm = false
   end
-  
 end
+
+pings.Rcut = function()
+  if not norm then
+    norm = true
+    none = false
+    lines = false
+    cosmic = false
+  end
+end
+
+pings.Rnone = function()
+  if not none then
+    none = true
+    norm = false
+    cosmic = false
+    lines = false
+  end
+end
+
 -- === Animation Functions === --
 function events.item_render(item)
   if item.id == "minecraft.crossbow" then
@@ -268,6 +242,7 @@ function events.item_render(item)
     animations.RepoTest.holdItemOut:stop()
   end
 end
+
 function playSkullCrouchAnimation(state)
   if state then
     animations.Skull.crouching:stop()
@@ -277,12 +252,9 @@ function playSkullCrouchAnimation(state)
 end
 
 function setEyeTexture(blacked)
-  --broken to my knowledge, texture exists and is recognized by head2 but doesnt seem to be accepted for the eyes in skull
-  --used to work but recently stopped, so maybe look through old commits
   local tex = blacked and textures["blackedEyes"] or textures["texture"]
-  --quick debugs to check for next time
   ptint(tex:getName())
-  models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", textures[tex])
+  models.Skull.root.spine.butt.abdomen.neck.head.eyes:primaryTexture("CUSTOM", tex)
   print(tex:getPath())
 end
 
@@ -292,17 +264,9 @@ function setHeadOnlyMode(enabled)
 end
 
 -- === Multiplayer Sync Pings === --
-pings.setSkullCrouch = function(state)
-  playSkullCrouchAnimation(state)
-end
-
-pings.setEyeTexture = function(blacked)
-  setEyeTexture(blacked)
-end
-
-pings.setHeadOnly = function(enabled)
-  setHeadOnlyMode(enabled)
-end
+pings.setSkullCrouch = playSkullCrouchAnimation
+pings.setEyeTexture = setEyeTexture
+pings.setHeadOnly = setHeadOnlyMode
 
 -- === Chat Trigger === --
 function pings.KorboSpeak(amount)
@@ -323,7 +287,6 @@ end
 
 -- === Tick Event === --
 function events.tick()
-  -- Voice sound system
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
     queue = queue - 1
     if cancelPreviousSound and currentSound then currentSound:stop() end
@@ -340,7 +303,6 @@ function events.tick()
     mouthTimer = mouthTimer - 0.1
   end
 
-  -- Walk animation
   local walking = player:getVelocity().xz:length() > 0.01
   if walking and player:getVelocity().xz:length() < 1 and player:getPose() == "CROUCHING" then
     animations.RepoTest.Cwalk:play()
@@ -352,7 +314,6 @@ function events.tick()
     animations.RepoTest.Cwalk:stop()
   end
 
-  -- Crouch animation
   if player:getPose() == "CROUCHING" then
     animations.RepoTest.crouching:play()
   else
@@ -365,39 +326,32 @@ end
 function math.clamp(value, min, max)
   return math.max(min, math.min(max, value))
 end
-local temp =
+
 -- === Render Handler === --
 events.RENDER:register(function(delta)
+  --if selectedCR ~= 146 or selectedCG ~= 17 or selectedCB ~= 18 then
+ 
 
-  if not selectedCR == 146 and not selectedCG == 17 and not selectedCB == 18 then
-    for x = 0, 512 do  
-    for i = 0, 512 do
-      setPixel(i, x, selectedCR, selectedCG, selectedCB)
-    end
-    end
-  end
-
-  if visibility then
-    nameplate.ENTITY:setVisible(true)
-    setShadowRadius()
-  else
-    setShadowRadius(0.001)
-    nameplate.ENTITY:setVisible(false)
-  end
-  --print("Entity Nameplate:", nameplate.ENTITY) -- should not be nil
-
-  if cosmic then
-    models.RepoTest:setPrimaryRenderType("END_GATEWAY") 
-  end
+  nameplate.ENTITY:setVisible(visibility)
+  renderer:setShadowRadius(visibility and 0.2 or 0.001)
+  models.Skull:setPrimaryRenderType("cutout_cull")
+  if cosmic then models.RepoTest:setPrimaryRenderType("END_GATEWAY") end
   if norm then
-    models.RepoTest:setPrimaryRenderType("cutout_cull")
-  end
-  if none then
-    models.RepoTest:setPrimaryRenderType("none")
-  end
-  if line then
-    models.RepoTest:setPrimaryRenderType("LINES_STRIP")
-  end
+     models.RepoTest:setPrimaryRenderType("cutout_cull")
+     models.RepoTest.root.spine.legs.legR.rightLeg:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.legs.legL.leftLeg:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.hips:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.abdomen.middle:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.abdomen.arms.leftArm.left_arm:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.abdomen.arms.rightArm.right_arm:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.abdomen.neck.crouchHip:setColor(Sred, Sgreen, Sblue)
+     models.RepoTest.root.spine.butt.abdomen.neck.head.head:setColor(Sred, Sgreen, Sblue)
+     
+ 
+   end
+  if none then models.RepoTest:setPrimaryRenderType("none") end
+  if lines then models.RepoTest:setPrimaryRenderType("LINES_STRIP") end
+
   local camRot = player:getRot()
   local bodyYaw = player:getBodyYaw()
   local pitch = -camRot[1]
@@ -408,13 +362,10 @@ events.RENDER:register(function(delta)
   local neckMaxYaw = 30
   local neckPitch = math.clamp(pitch, -neckMaxPitch, neckMaxPitch)
   local neckYaw = math.clamp(yaw, -neckMaxYaw, neckMaxYaw)
-
   local leftoverPitch = pitch - neckPitch
   local leftoverYaw = yaw - neckYaw
-
   local abdomenPitch = math.clamp(leftoverPitch, -15, 15)
   local buttPitch = math.clamp(leftoverPitch - abdomenPitch, -10, 10)
-
   local eyePitch = pitch - neckPitch
   local eyeYaw = yaw - neckYaw
 
