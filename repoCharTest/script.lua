@@ -20,6 +20,7 @@ local voicePitchRange = 0.7
 local voiceMinLength = 1
 local voiceMaxLength = 999
 local cancelPreviousSound = false
+local voiceOn = true
 
 -- Internal variables
 local queue = 0
@@ -87,10 +88,24 @@ skullSettings:newAction()
     pings.togglename2(state)
   end)
 
-funPage:newAction()
+local voiceToggle = funPage:newAction()
   :title("character colors §7(leftclick)§r")
   :item("blue_concrete")
   :onLeftClick(function() action_wheel:setPage(colorsPage) end)
+  funPage:newAction()
+  :title("turn off voice §7(leftclick)§r")
+  :item("sculk")
+  :onLeftClick(function() 
+    if voiceOn  then
+      voiceOn = false
+      print("is voice on?:" )
+      print(voiceOn)
+    else
+    voiceOn = true
+    print("is voice on?:" )
+    print(voiceOn)
+    end
+   end)
   colorsPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
@@ -286,12 +301,16 @@ function pings.KorboSpeak(amount)
 end
 
 function events.chat_send_message(msg)
+  
   if not msg then return end
   if string.sub(msg, 1, 1) ~= "/" then
     local nospaces = msg:gsub("%s+", "")
+    if(voiceOn) then
     pings.KorboSpeak(math.max(voiceMinLength, math.min(#nospaces, voiceMaxLength)))
-  end
+    end
+  
   return msg
+end
 end
 
 -- === Tick Event === --
