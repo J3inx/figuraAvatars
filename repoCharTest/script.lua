@@ -311,6 +311,7 @@ function events.chat_send_message(msg)
   
   return msg
 end
+return msg
 end
 
 -- === Tick Event === --
