@@ -158,6 +158,15 @@ colorsPage:newAction()
     Sblue = 0
     
   end)
+  colorsPage:newAction()
+  :title("set color to grey §7(leftclick)§r")
+  :item("gray_wool")
+  :onLeftClick(function()
+    Sred = 0.453
+    Sgreen = 0.470
+    Sblue =  0.480
+    
+  end)
 funPage:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
