@@ -71,8 +71,9 @@ local earsPhysics = require('ears')
 
 local ears = earsPhysics.new(models.example.Head.leftEar, models.example.Head.rightEar)
 local boobs = earsPhysics.new(models.example.Body.LTIT, models.example.Body.RTIT)
-local ass = earsPhysics.new(models.example.left_leg.ButtL.Bc2, models.example.right_leg.ButtR.Bc)
-local wings = earsPhysics.new(models.example.Body.Lwing, models.example.Body.Rwing)
+local ass = earsPhysics.new(models.example.LeftLeg.ButtL.Bc2, models.example.RightLeg.ButtR.Bc)
+local wings = earsPhysics.new(models.example.Body.Lwing, models.example.Body.Rwing)--models.example.Body.bone)--models.example.Body.Rwing)
+
 local wingsDos = earsPhysics.new(models.example.Body.Lwing2, models.example.Body.Rwing2)
 
 boobs:setConfig{
@@ -90,12 +91,13 @@ boobs:setConfig{
 }
 wings:setConfig{
   
-  lockXYRot = true, -- if true, X and Y rotation will always be set to 0
+  --lockXYRot = true, -- if true, X and Y rotation will always be set to 0
   rotMin = vec(-12, -8, -4), -- rotation limit
   rotMax = vec(12, 8, 6), -- rotation limit
-  rotationAxis = "YXZ",
+  rotationAxis = "-XYZ",
   headRotStrength = 0,
   extraAngle = 0,
+  
   --mirrorW = true,
   disableHeadPitch = true,
   disableHeadYaw = true,
@@ -103,6 +105,7 @@ wings:setConfig{
   headRotMin = 0, -- minimum rotation for head rotation
   headRotMax = 0 -- maximum rotation for head rotation
 }
+
 wingsDos:setConfig{
   
   lockXYRot = true, -- if true, X and Y rotation will always be set to 0
@@ -119,7 +122,7 @@ wingsDos:setConfig{
   headRotMax = 0 -- maximum rotation for head rotation
 }
 ass:setConfig{
-  lockXYRot = true, -- if true, X and Y rotation will always be set to 0
+  --lockXYRot = true, -- if true, X and Y rotation will always be set to 0
   rotMin = vec(-12, -8, -4), -- rotation limit
   rotMax = vec(12, 8, 6), -- rotation limit
   rotationAxis = "ZXY",
@@ -130,6 +133,7 @@ ass:setConfig{
   earsFlick = false,
   headRotMin = 0, -- minimum rotation for head rotation
   headRotMax = 0 -- maximum rotation for head rotation
+  
 }
 ears:setConfig {
   -- you can check ears.lua to see default config
@@ -479,12 +483,12 @@ function events.render(delta, context)
   end
   local walking = player:getVelocity().xz:length() > 0.01
   if walking and player:getVelocity().xz:length() < 1 then
-    animations.DVanDrag.walks:setPlaying(true)
+    --animations.DVanDrag.walks:setPlaying(true)
     nuts = false
     jorkin = false
     fullSit = false
   else
-    animations.DVanDrag.walks:setPlaying(false)
+    --animations.DVanDrag.walks:setPlaying(false)
   end
   -- Set your object's rotation
   --models.DVanDrag.head2.Head.headStuff:setRot((pitch)*0.05)

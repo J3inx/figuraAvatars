@@ -8,6 +8,16 @@ local updatingEars = {}
 ears.__index = ears
 local oldPlayerRot
 
+-- Utility: Clamp a vector between min and max vectors
+local function clampVec3(vecToClamp, minVec, maxVec)
+   return vec(
+      math.clamp(vecToClamp.x, minVec.x, maxVec.x),
+      math.clamp(vecToClamp.y, minVec.y, maxVec.y),
+      math.clamp(vecToClamp.z, minVec.z, maxVec.z),
+      math.clamp(vecToClamp.w, minVec.z, maxVec.z) -- use Z min/max for W
+   )
+end
+
 ---creates new ears physics
 ---@param leftEar ModelPart
 ---@param rightEar ModelPart
@@ -32,7 +42,8 @@ function earsPhysics.new(leftEar, rightEar)
       headRotMax = 90,
       disableHeadPitch = false,
       disableHeadYaw = false,
-      rotationAxis = "XYZ" -- ⛔ new config: determines rotation axis order (XYZ, YXZ, ZXY, XZY, YZX, ZYX)
+      rotationAxis = "XYZ",
+      reverseRotation = false -- NEW CONFIG FIELD
    }
    obj.leftEar = leftEar
    obj.rightEar = rightEar
@@ -100,6 +111,8 @@ local function tickEars(obj, playerVel, playerRotVel, isCrouching, playerRot)
    obj.rot.z = obj.rot.z - finalVel.y + finalVel.z
    obj.rot.w = obj.rot.w - finalVel.y - finalVel.z
 
+   obj.rot = clampVec3(obj.rot, obj.config.rotMin, obj.config.rotMax)
+
    obj.flickTime = math.max(obj.flickTime - 1, 0)
    if obj.config.earsFlick and obj.flickTime == 0 and math.random(math.max(obj.config.flickChance, 1)) == 1 then
       obj.flickTime = obj.config.flickDelay
@@ -140,31 +153,45 @@ end
 function events.render(delta)
    for _, obj in pairs(updatingEars) do
       local rot = math.lerp(obj.oldRot, obj.rot, delta)
+
+      if obj.config.reverseRotation then
+         rot = -rot
+      end
+
       local axis = obj.config.rotationAxis
       local x, y, z = rot.x, rot.y, rot.z
       local w = rot.w
 
-      local lx, ly, lz = -x, -y, -z
-      local lw = -w
-
       if axis == "YXZ" then
-         obj.leftEar:setOffsetRot(ly, lx, lz)
-         obj.rightEar:setOffsetRot(y, x, -z)
+         obj.leftEar:setOffsetRot(y, x, z)
+         obj.rightEar:setOffsetRot(-y, -x, -z)
       elseif axis == "ZXY" then
-         obj.leftEar:setOffsetRot(lz, lx, ly)
-         obj.rightEar:setOffsetRot(-z, x, y)
+         obj.leftEar:setOffsetRot(z, x, y)
+         obj.rightEar:setOffsetRot(-z, -x, -y)
+      elseif axis == "-YXZ" then
+         obj.leftEar:setOffsetRot(-z, x, y)
+         obj.rightEar:setOffsetRot(z, -x, -y)
       elseif axis == "XZY" then
-         obj.leftEar:setOffsetRot(lx, lz, ly)
-         obj.rightEar:setOffsetRot(x, -z, y)
+         obj.leftEar:setOffsetRot(x, z, y)
+         obj.rightEar:setOffsetRot(-x, -z, -y)
+      elseif axis == "-XZY" then
+         obj.leftEar:setOffsetRot(-x, z, y)
+         obj.rightEar:setOffsetRot(-x, -z, -y)
       elseif axis == "YZX" then
-         obj.leftEar:setOffsetRot(ly, lz, lx)
-         obj.rightEar:setOffsetRot(y, -z, x)
+         obj.leftEar:setOffsetRot(y, z, x)
+         obj.rightEar:setOffsetRot(-y, -z, -x)
       elseif axis == "ZYX" then
-         obj.leftEar:setOffsetRot(lz, ly, lx)
-         obj.rightEar:setOffsetRot(-z, y, x)
+         obj.leftEar:setOffsetRot(z, y, x)
+         obj.rightEar:setOffsetRot(-z, -y, -x)
+      elseif axis == "-ZXY" then
+         obj.leftEar:setOffsetRot(-z, x, y)
+         obj.rightEar:setOffsetRot(z, -x, -y)
+      elseif axis == "-XYZ" then
+         obj.leftEar:setOffsetRot(vec(x, y, z))
+         obj.rightEar:setOffsetRot(vec(-x, -y, -z))
       else
          obj.leftEar:setOffsetRot(vec(-x, -y, -z))
-         obj.rightEar:setOffsetRot(vec(x, y, w))
+         obj.rightEar:setOffsetRot(vec(x, y, z))
       end
    end
 end
