@@ -2,7 +2,7 @@
 config = require("config")
 local tailPhysics = require('tail')
 
-local tail = tailPhysics.new(models.example.Body.tail)
+local tail = tailPhysics.new(models.example.Body.tail)--.tail2)
 -- Change scale to X
 local defaultScale = config.defaultScale
 -- A saved secondary size to be used in action wheel
@@ -78,22 +78,23 @@ local wingsDos = earsPhysics.new(models.example.Body.Lwing2, models.example.Body
 
 boobs:setConfig{
   lockXYRot = true, -- if true, X and Y rotation will always be set to 0
-  rotMin = vec(-12, -8, -4), -- rotation limit
-  rotMax = vec(12, 8, 6), -- rotation limit
-  rotationAxis = "ZYX",
+  --rotMin = vec(-12, -8, -4), -- rotation limit
+  --rotMax = vec(12, 8, 6), -- rotation limit
+  rotationAxis = "-ZYX",
   headRotStrength = 0,
   extraAngle = 0,
+  stiff = 0.1,
   disableHeadPitch = true,
   disableHeadYaw = true,
   earsFlick = false,
-  headRotMin = 0, -- minimum rotation for head rotation
-  headRotMax = 0 -- maximum rotation for head rotation
+  --headRotMin = 0, -- minimum rotation for head rotation
+  --headRotMax = 0 -- maximum rotation for head rotation
 }
 wings:setConfig{
   
-  --lockXYRot = true, -- if true, X and Y rotation will always be set to 0
-  rotMin = vec(-12, -8, -4), -- rotation limit
-  rotMax = vec(12, 8, 6), -- rotation limit
+  lockXYRot = true, -- if true, X and Y rotation will always be set to 0
+  rotMin = vec(-12, -10, -10), -- rotation limit
+  rotMax = vec(12, 10, 10), -- rotation limit
   rotationAxis = "-XYZ",
   headRotStrength = 0,
   extraAngle = 0,

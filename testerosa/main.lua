@@ -71,7 +71,7 @@ local returntbl2 = {
 
 function changeModel()
     if player:getModelType() == "DEFAULT" then
-        models.model:setVisible(false)
+        --models.model:setVisible(false)
     end
 end
 
@@ -94,6 +94,7 @@ local blinkRate = 100.0
 if config.action_wheel then
     action_wheel:setPage(mainPage)
 end
+--models.model.root.ItemHelm:setVisible(true)
 mainPage:newAction()
     :title("quick settings §7(leftclick)§r")
     :item("iron_pickaxe")
@@ -464,9 +465,22 @@ events.TICK:register(function()
 end)
 
 function events.render(delta, type)
+    if player:getItem(6).id == "minecraft:diamond" then
+        models.model.root.Head.Helmer:setVisible(true)
+
+        -- Get player's head rotation
+        local rot = player:getRot() -- returns vec(pitch, yaw, roll)
+
+        -- Apply it to the helmet (negate pitch to match visual orientation)
+        models.model.root.Head.Helmer:setRotation(-rot.x, rot.y, rot.z)
+    else
+        --models.model.Helmer:setVisible(false)
+    end
+
     if type == "FIRST_PERSON" or type == "RENDER" then return end
     models:setScale(1, 1, 1)
 end
+
 
 function events.post_render(delta, type)
     if type == "FIRST_PERSON" or type == "RENDER" then return end

@@ -183,6 +183,9 @@ function events.render(delta)
       elseif axis == "ZYX" then
          obj.leftEar:setOffsetRot(z, y, x)
          obj.rightEar:setOffsetRot(-z, -y, -x)
+      elseif axis == "-ZYX" then
+         obj.leftEar:setOffsetRot(z, y, x)
+         obj.rightEar:setOffsetRot(z, y, x)
       elseif axis == "-ZXY" then
          obj.leftEar:setOffsetRot(-z, x, y)
          obj.rightEar:setOffsetRot(z, -x, -y)
