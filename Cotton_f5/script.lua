@@ -343,7 +343,7 @@ local povtog = actionwheel:newAction()
             log("no sound selected")
             
           elseif selected == 1 then
-            sounds:playSound("testSound", player:getPos())
+            sounds:playSound("audiomass-outputperf", player:getPos())
             log("played sound 1")
           elseif selected == 2 then 
             sounds:playSound("testSound", player:getPos())
