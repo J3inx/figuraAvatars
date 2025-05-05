@@ -1,8 +1,8 @@
 {
   "name": "testBed",
-  "description": "used to test scripts in an isolated environment",
+  "description": "what i use to test stuff",
   "authors": [
     ""
   ],
-  "color": "#a672ef"
+  "color": "#ffc400"
 }

@@ -467,15 +467,18 @@ end)
 function events.render(delta, type)
     --most of the stuff below is broken
     if player:getItem(6).id == "minecraft:diamond" then
-        models.model.Head.Helmer:setVisible(true)
+        vanilla_model.HELMET_ITEM:setVisible(false)
+        models.model.root.Head.Helmer:setVisible(true)
+        models.model.root.Body.creatinator_tank:setVisible(true)
 
         -- Get the head rotation directly
-        local headRot = models.model.Head:getRot()
+        local headRot = models.model.root.Head:getRot()
 
         -- Apply that rotation to the helmet
-        models.model.Head.Helmer:setRot(headRot)
+        models.model.root.Head.Helmer:setRot(headRot)
     else
-        --models.model.Head.Helmer:setVisible(false)
+        models.model.root.Head.Helmer:setVisible(false)
+        models.model.root.Body.creatinator_tank:setVisible(false)
     end
 
     if type == "FIRST_PERSON" or type == "RENDER" then return end
