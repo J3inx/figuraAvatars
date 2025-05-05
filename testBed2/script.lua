@@ -50,6 +50,7 @@ action_wheel:setPage(mainPage)
 
 --variables
 camera = require("camera")
+local animating = false
 local cocShown = false
 local fullB = false
 local fullB2 = false
@@ -278,6 +279,7 @@ actorsAction:newAction()
  
 end)
 function pings.nutter()
+  animating = true
   fullB2 = false
      fullB = false
   nuts = true
@@ -347,6 +349,7 @@ function shakeModel()
     models.model:setPos(math.random() * shakeAmount, math.random() * shakeAmount, math.random() * shakeAmount)
 end
 function pings.jorker()
+  animating = true
   fullB2 = false
      fullB = false
   nuts = false
@@ -354,6 +357,7 @@ function pings.jorker()
   fullSit = false
   end
   function pings.fullSit()
+    animating = true
     fullB2 = false
        fullB = false
     nuts = false
@@ -436,6 +440,35 @@ end
 --"delta" is the percentage between the last and the next tick (as a decimal value, 0.0 to 1.0)
 --"context" is a string that tells from where this render event was called (the paperdoll, gui, player render, first person)
 function events.render(delta, context)
+  if animating then
+    models.example:setVisible(false)
+    models.DVanDrag.head2.Head.leftEar:setVisible(true)
+    models.DVanDrag.head2.Head.rightEar:setVisible(true)
+    models.DVanDrag.bodies.Body.Rwing:setVisible(true)
+    models.DVanDrag.bodies.Body.Lwing:setVisible(true)
+    models.DVanDrag.bodies.Body.RTIT:setVisible(true)
+    models.DVanDrag.bodies.Body.LTIT:setVisible(true)
+    models.DVanDrag.bodies.Body.tail:setVisible(true)
+    models.DVanDrag.bodies.LeftLeg.LL.Thigh.ButtL:setVisible(true)
+    models.DVanDrag.bodies.RightLeg.RL.Thigh1.ButtR:setVisible(true)
+  else
+    models.example:setVisible(true)
+    models.DVanDrag.head2.Head.leftEar:setVisible(false)
+    models.DVanDrag.head2.Head.rightEar:setVisible(false)
+    models.DVanDrag.bodies.Body.Rwing:setVisible(false)
+    models.DVanDrag.bodies.Body.Lwing:setVisible(false)
+    models.DVanDrag.bodies.Body.RTIT:setVisible(false)
+    models.DVanDrag.bodies.Body.LTIT:setVisible(false)
+    models.DVanDrag.bodies.Body.tail:setVisible(false)
+    models.DVanDrag.bodies.LeftLeg.LL.Thigh.ButtL:setVisible(false)
+    models.DVanDrag.bodies.RightLeg.RL.Thigh1.ButtR:setVisible(false)
+  end
+  if player:getPose() == "CROUCHING" then
+    models.example.Body:setOffsetPivot(0, 25, 0)
+    
+else
+    
+end
   local camRot = player:getRot()
   local bodyRot = vanilla_model.BODY:getOriginRot()
 
@@ -488,6 +521,7 @@ function events.render(delta, context)
     nuts = false
     jorkin = false
     fullSit = false
+    animating = false
   else
     --animations.DVanDrag.walks:setPlaying(false)
   end

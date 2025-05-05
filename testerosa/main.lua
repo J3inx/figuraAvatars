@@ -465,16 +465,17 @@ events.TICK:register(function()
 end)
 
 function events.render(delta, type)
+    --most of the stuff below is broken
     if player:getItem(6).id == "minecraft:diamond" then
-        models.model.root.Head.Helmer:setVisible(true)
+        models.model.Head.Helmer:setVisible(true)
 
-        -- Get player's head rotation
-        local rot = player:getRot() -- returns vec(pitch, yaw, roll)
+        -- Get the head rotation directly
+        local headRot = models.model.Head:getRot()
 
-        -- Apply it to the helmet (negate pitch to match visual orientation)
-        models.model.root.Head.Helmer:setRotation(-rot.x, rot.y, rot.z)
+        -- Apply that rotation to the helmet
+        models.model.Head.Helmer:setRot(headRot)
     else
-        --models.model.Helmer:setVisible(false)
+        --models.model.Head.Helmer:setVisible(false)
     end
 
     if type == "FIRST_PERSON" or type == "RENDER" then return end
