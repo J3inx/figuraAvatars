@@ -55,6 +55,7 @@ local cocShown = false
 local fullB = false
 local fullB2 = false
 local fullSit = false
+local sit = false
 local temp = 1
 local nuts = false
 local jorkin = false
@@ -302,6 +303,24 @@ actorsAction:newAction()
   pings.fullSit()
  
 end)
+actorsAction:newAction()
+:title("sit")
+:item("oak_stairs")
+:onLeftClick(function()
+  
+  pings.sit()
+ 
+end)
+function pings.sit()
+  animating = false
+  fullB2 = false
+     fullB = false
+  nuts = false
+  sit = true
+  jorkin = false
+  fullSit = false
+end
+
 function pings.sitFull()
 
 end
@@ -354,6 +373,7 @@ function pings.jorker()
      fullB = false
   nuts = false
   jorkin = true
+  sit = false
   fullSit = false
   end
   function pings.fullSit()
@@ -361,6 +381,7 @@ function pings.jorker()
     fullB2 = false
        fullB = false
     nuts = false
+    sit = false
     jorkin = false
     fullSit = true
     end
@@ -465,6 +486,7 @@ function events.render(delta, context)
   end
   if player:getPose() == "CROUCHING" then
     models.example.Body:setOffsetPivot(0, 25, 0)
+    models.DVanDrag.bodies.Body.cabs:setOffsetPivot(0,-25,0)
     
 else
     
@@ -484,12 +506,33 @@ end
   else
     animations.DVanDrag.fNUT:setPlaying(false)
   end
+  if sit then
+    animations.DVanDrag.sit:setPlaying(true)
+    models.example.Body:setPos(0, -10, -8)
+    models.example.Body:setRot(30)
+    models.example.LeftLeg:setPos(0, -10, 0)
+    models.example.LeftLeg:setRot(30)
+    models.example.RightLeg:setPos(0, -10, 0)
+    models.example.RightLeg:setRot(30)
+    models.example.Head:setPos(0, -15, 5)
+    models.example.Head:setRot(30)
+  else
+    animations.DVanDrag.sit:setPlaying(false)
+    models.example.Body:setPos(0,0,0)
+    models.example.Body:setRot(0)
+    models.example.LeftLeg:setPos(0,0,0)
+    models.example.LeftLeg:setRot(0)
+    models.example.RightLeg:setPos(0,0,0)
+    models.example.RightLeg:setRot(0)
+    models.example.Head:setPos(0,0,0)
+    models.example.Head:setRot(0)
+  end
   if cocShown then
-    models.DVanDrag.bodies.cabs:setVisible(true)
+    models.DVanDrag.bodies.Body.cabs:setVisible(true)
     --models.DVandDrag.bodies.cabs.cock:setVisible(true)
   else
     --models.DVandDrag.bodies.cabs.cock:setVisible(true) 
-    models.DVanDrag.bodies.cabs:setVisible(false)
+    models.DVanDrag.bodies.Body.cabs:setVisible(false)
   end
   if fullB then
     animations.DVanDrag.fullBalls:setPlaying(true)
@@ -521,6 +564,7 @@ end
     nuts = false
     jorkin = false
     fullSit = false
+    sit = false
     animating = false
   else
     --animations.DVanDrag.walks:setPlaying(false)

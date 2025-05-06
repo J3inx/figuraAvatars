@@ -435,9 +435,11 @@ function pings.updateScale(arg)
     models:setScale(scale, scale, scale)
     if scale >= 1 then
         nameplate.ENTITY:setScale(scale, scale, scale)
+        renderer:setShadowRadius(scale)
     else
         local tinyscale = math.max(scale, .2) * 2
         nameplate.ENTITY:setScale(tinyscale, tinyscale, tinyscale)
+        renderer:setShadowRadius(scale*0.2)
     end
 
     nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2, 0)
