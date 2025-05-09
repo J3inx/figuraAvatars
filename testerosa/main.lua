@@ -482,12 +482,14 @@ function events.render(delta, type)
         models.model.root.Head.Helmer:setVisible(false)
         models.model.root.Body.creatinator_tank:setVisible(false)
     end
-    if player:isInWater()then
+    if player:isInWater() or  player:getItem(6).id == "minecraft:glass" then
+        vanilla_model.HELMET_ITEM:setVisible(false)
         models.model.root.Head.scuba:setVisible(true)
         models.model.root.Body.scuba_tubes:setVisible(true) 
         models.model.root.Head.Helmer:setVisible(false)
         models.model.root.Body.creatinator_tank:setVisible(true)
     else
+        vanilla_model.HELMET_ITEM:setVisible(true)
         models.model.root.Head.scuba:setVisible(false) 
         models.model.root.Body.scuba_tubes:setVisible(false) 
     end
