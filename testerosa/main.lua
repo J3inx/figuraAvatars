@@ -455,7 +455,7 @@ events.TICK:register(function()
         models:setPos(0, 0, 0)
         nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2, 0)
     end
-
+  
     if host:isHost() then
         if timer > 0 then
             timer = timer - 1
@@ -482,7 +482,15 @@ function events.render(delta, type)
         models.model.root.Head.Helmer:setVisible(false)
         models.model.root.Body.creatinator_tank:setVisible(false)
     end
-
+    if player:isInWater()then
+        models.model.root.Head.scuba:setVisible(true)
+        models.model.root.Body.scuba_tubes:setVisible(true) 
+        models.model.root.Head.Helmer:setVisible(false)
+        models.model.root.Body.creatinator_tank:setVisible(true)
+    else
+        models.model.root.Head.scuba:setVisible(false) 
+        models.model.root.Body.scuba_tubes:setVisible(false) 
+    end
     if type == "FIRST_PERSON" or type == "RENDER" then return end
     models:setScale(1, 1, 1)
 end
