@@ -343,7 +343,8 @@ local povtog = actionwheel:newAction()
             log("no sound selected")
             
           elseif selected == 1 then
-            sounds:playSound("audiomass-outputperf", player:getPos())
+            sounds:playSound("Dog_Squeak", player:getPos())
+           
             log("played sound 1")
           elseif selected == 2 then 
             sounds:playSound("testSound", player:getPos())
@@ -362,29 +363,38 @@ local povtog = actionwheel:newAction()
         
       end
         end
-    function pings.scrolling(dir)
-        --log(dir)
-        if dir > 0 then
-            if selected == 5 then
-              selected = 0
+        function pings.select(selection)
+            selected = selection
+          end
+          
+          -- we calculate the new selected value on the host, and ping the selection instead
+          -- of the scroll direction
+          local function scrolling(dir)
+            if dir > 0 then
+              if selected == 5 then
+                selected = 0
+              else
+                selected = selected + 1
+              end
+              log(selected)
             else
-              selected = selected +1
+              if selected == 0 then
+                selected = 5
+              else
+                selected = selected - 1
+              end
+              log(selected)
             end
-            log(selected)
-        else
-            
-            if selected == 0 then
-              selected = 5
-            else
-              selected = selected -1
-            end
-            log(selected)
-        end
-      end
+            pings.select(selected)
+          end
+          
+          mainPage:newAction()
+            :title("whatever title")
+            :setOnScroll(scrolling)
       mainPage:newAction()
           :title("select sound §7(scroll)§r")
           :item("jukebox")
-          :setOnScroll(pings.scrolling)
+          :setOnScroll(scrolling)
       mainPage:newAction()
           :title("play sound §7(left click)§r")
           :item("arrow")
@@ -429,7 +439,7 @@ local elytog = actionwheel:newAction()
 function events.render()
     local rot_l = vanilla_model.LEFT_LEG:getOriginRot()
     local rot_r = vanilla_model.RIGHT_LEG:getOriginRot()
-
+   
     --skirt
     models.model.whole.body.torsorot.Body.skirt.c_front:setRot((math.abs(rot_l.x) + math.abs(rot_r.x)) * 0.15, nil, nil)
     models.model.whole.body.torsorot.Body.skirt.c_back:setRot(-(math.abs(rot_l.x) + math.abs(rot_r.x)) * 0.15, nil, nil)
