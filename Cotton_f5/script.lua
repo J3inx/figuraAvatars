@@ -347,7 +347,7 @@ local povtog = actionwheel:newAction()
            
             log("played sound 1")
           elseif selected == 2 then 
-            sounds:playSound("testSound", player:getPos())
+            sounds:playSound("testSound", user:getPos())
             log("played sound 2")
           elseif selected == 3 then 
             sounds:playSound("testSound", player:getPos())
