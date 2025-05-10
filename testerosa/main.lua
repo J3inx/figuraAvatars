@@ -468,7 +468,7 @@ end)
 
 function events.render(delta, type)
     --most of the stuff below is broken
-    if player:getItem(6).id == "minecraft:diamond" then
+    if player:getItem(6).id == "minecraft:redstone_torch" then
         vanilla_model.HELMET_ITEM:setVisible(false)
         models.model.root.Head.Helmer:setVisible(true)
         models.model.root.Body.creatinator_tank:setVisible(true)
@@ -489,7 +489,6 @@ function events.render(delta, type)
         models.model.root.Head.Helmer:setVisible(false)
         models.model.root.Body.creatinator_tank:setVisible(true)
     else
-        vanilla_model.HELMET_ITEM:setVisible(true)
         models.model.root.Head.scuba:setVisible(false) 
         models.model.root.Body.scuba_tubes:setVisible(false) 
     end
