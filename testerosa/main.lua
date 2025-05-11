@@ -140,8 +140,8 @@ emotionPage:newAction()
 	:title("set emotion to happy  §7(leftclick)§r")
 	:item("yellow_concrete")
 	:onLeftClick(function()
-		if textures["norm"] then
-	models.model.root.Head:primaryTexture("CUSTOM", textures["norm"])
+		if textures["skin"] then
+	models.model.root.Head:primaryTexture("CUSTOM", textures["skin"])
 
 	animations.model.shockedEyes:setPlaying(false)
 		else
@@ -465,7 +465,9 @@ events.TICK:register(function()
         end
     end
 end)
-
+function events.skull_render(delta, block, item, entity, mode)
+   -- return models.model
+end
 function events.render(delta, type)
     --most of the stuff below is broken
     if player:getItem(6).id == "minecraft:redstone_torch" then
