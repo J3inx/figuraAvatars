@@ -117,7 +117,7 @@ emotionPage:newAction()
 	:item("white_concrete")
 	:onLeftClick(function()
 		if textures["neutral"] then
-	models.model.root.Head:primaryTexture("CUSTOM", textures["neutral"])
+	models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["neutral"])
 
 	animations.model.shockedEyes:setPlaying(false)
 		else
@@ -129,7 +129,8 @@ emotionPage:newAction()
 	:item("blue_concrete")
 	:onLeftClick(function()
 		if textures["sad"] then
-	models.model.root.Head:primaryTexture("CUSTOM", textures["sad"])
+	models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["sad"])
+    models.model.root.Head.Head:primaryTexture("CUSTOM", textures["sad"])
 	animations.model.shockedEyes:setPlaying(false)
 		else
 			log("sad texture missing")
@@ -141,7 +142,8 @@ emotionPage:newAction()
 	:item("yellow_concrete")
 	:onLeftClick(function()
 		if textures["skin"] then
-	models.model.root.Head:primaryTexture("CUSTOM", textures["skin"])
+	models.model.root.Head.Head:primaryTexture("CUSTOM", textures["skin"])
+    models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["skin"])
 
 	animations.model.shockedEyes:setPlaying(false)
 		else
@@ -153,7 +155,8 @@ emotionPage:newAction()
 	:item("purple_concrete")
 	:onLeftClick(function()
 		if textures["heavyDistressed"] then
-	models.model.root.Head:primaryTexture("CUSTOM", textures["heavyDistressed"])
+	models.model.root.Head.Head:primaryTexture("CUSTOM", textures["heavyDistressed"])
+    models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["heavyDistressed"])
 
 	animations.model.shockedEyes:setPlaying(true)
 
