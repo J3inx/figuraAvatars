@@ -75,17 +75,18 @@ local ears = earsPhysics.new(models.example.Head.leftEar, models.example.Head.ri
 local boobs = earsPhysics.new(models.example.Body.LTIT, models.example.Body.RTIT)
 local ass = earsPhysics.new(models.example.LeftLeg.ButtL.Bc2, models.example.RightLeg.ButtR.Bc)
 local wings = earsPhysics.new(models.example.Body.Lwing, models.example.Body.Rwing)--models.example.Body.bone)--models.example.Body.Rwing)
-
+local prevAnimF2 = false
+local prevAnimF = false
 local wingsDos = earsPhysics.new(models.example.Body.Lwing2, models.example.Body.Rwing2)
 
 boobs:setConfig{
   lockXYRot = true, -- if true, X and Y rotation will always be set to 0
   --rotMin = vec(-12, -8, -4), -- rotation limit
-  --rotMax = vec(12, 8, 6), -- rotation limit
+  rotMax = vec(12, 8, 6), -- rotation limit
   rotationAxis = "-ZYX",
   headRotStrength = 0,
   extraAngle = 0,
-  stiff = 0.1,
+  stiff = 0.05,
   disableHeadPitch = true,
   disableHeadYaw = true,
   earsFlick = false,
@@ -368,9 +369,15 @@ function shakeModel()
     models.model:setPos(math.random() * shakeAmount, math.random() * shakeAmount, math.random() * shakeAmount)
 end
 function pings.jorker()
-  animating = true
-  fullB2 = false
-     fullB = false
+  
+  if fullB2 then
+    prevAnimF2 = true
+    fullB2 = false
+  end
+  if fullB then
+    prevAnimF = true
+    fullB = false
+  end
   nuts = false
   jorkin = true
   sit = false
@@ -387,6 +394,16 @@ function pings.jorker()
     end
 --tick event, called 20 times per second
 function events.tick()
+  if sit then
+    models.example.Body:setPos(0,0,0)
+    models.example.Body:setRot(30)
+    models.example.LeftLeg:setPos(0,0,0)
+    models.example.LeftLeg:setRot(30)
+    models.example.RightLeg:setPos(0,0,0)
+    models.example.RightLeg:setRot(30)
+    models.example.Head:setPos(0, 0,0)
+    models.example.Head:setRot(30)
+  end
   --code goes here
 end
 scale = defaultScale
@@ -427,6 +444,7 @@ local timer = 200
 events.TICK:register(function()
     if player:getPose() == "CROUCHING" then
         models:setPos(0, 2, 0)
+        
         nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2 + 4 / 16, 0)
     else
         models:setPos(0, 0, 0)
@@ -485,11 +503,25 @@ function events.render(delta, context)
     models.DVanDrag.bodies.RightLeg.RL.Thigh1.ButtR:setVisible(false)
   end
   if player:getPose() == "CROUCHING" then
-    models.example.Body:setOffsetPivot(0, 25, 0)
+    
+    
     models.DVanDrag.bodies.Body.cabs:setOffsetPivot(0,-25,0)
+    if sit then
+      models.DVanDrag.head2.Head:setPos(0, -4, 0)
+    else
+      models.DVanDrag.head2.Head:setPos(0,4,0)
+    end
     
 else
-    
+  models.example.Body:setPos(0, -13, 2) 
+  models.example.Body:setRot(35) 
+  models.example.LeftLeg:setPos(0, -10, 0)
+  models.example.LeftLeg:setRot(30)
+  models.example.RightLeg:setPos(0, -10, 0)
+  models.example.RightLeg:setRot(30)
+  models.example.Head:setPos(0, -15, 5)
+  models.DVanDrag.head2.Head:setPos(0,0,0)
+  models.example.Head:setRot(30)
 end
   local camRot = player:getRot()
   local bodyRot = vanilla_model.BODY:getOriginRot()
@@ -498,6 +530,14 @@ end
   local yaw = camRot[2]   -- rotate 180° left
   if jorkin then
     animations.DVanDrag.yorkinit:setPlaying(true)
+    if prevAnimF then
+      animations.DVanDrag.fullBallsJork:setPlaying(true)
+      animations.DVanDrag.fullBalls:setPlaying(false)
+    end
+    if prevAnimF2 then
+      animations.DVanDrag.fullerBalls:setPlaying(false)
+      animations.DVanDrag.fullerBallsJork:setPlaying(true)
+    end
   else
     animations.DVanDrag.yorkinit:setPlaying(false)
   end
@@ -508,8 +548,9 @@ end
   end
   if sit then
     animations.DVanDrag.sit:setPlaying(true)
-    models.example.Body:setPos(0, -10, -8)
-    models.example.Body:setRot(30)
+    animations.example.sit:setPlaying(true)
+    models.example.Body:setPos(0, -13, 2) 
+    models.example.Body:setRot(35)
     models.example.LeftLeg:setPos(0, -10, 0)
     models.example.LeftLeg:setRot(30)
     models.example.RightLeg:setPos(0, -10, 0)
@@ -518,6 +559,7 @@ end
     models.example.Head:setRot(30)
   else
     animations.DVanDrag.sit:setPlaying(false)
+    animations.example.sit:setPlaying(false)
     models.example.Body:setPos(0,0,0)
     models.example.Body:setRot(0)
     models.example.LeftLeg:setPos(0,0,0)
@@ -561,6 +603,16 @@ end
   local walking = player:getVelocity().xz:length() > 0.01
   if walking and player:getVelocity().xz:length() < 1 then
     --animations.DVanDrag.walks:setPlaying(true)
+    if prevAnimF2 then
+      fullB2 = true
+    animations.DVanDrag.fullerBallsJork:setPlaying(false)
+      prevAnimF2 = false
+    end
+    if prevAnimF then
+      fullB= true
+      animations.DVanDrag.fullBallsJork:setPlaying(false)
+      prevAnimF = false
+    end
     nuts = false
     jorkin = false
     fullSit = false
