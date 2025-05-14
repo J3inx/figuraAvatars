@@ -78,6 +78,14 @@ mainPage:newAction()
   :onLeftClick(function()
     animations.BonBon.sit:setPlaying(true)
   end)
+  emotionPage:newAction()
+  :title("play loaf animation")
+  :item("bread")
+  :onLeftClick(function()
+    models.BonBon.root.RightArm.shoulderConnector2:setVisible(true)
+    models.BonBon.root.LeftArm.shoulderConnector:setVisible(true)
+    animations.BonBon.loaf:setPlaying(true)
+  end)
 -- Tick event (20 times per second)
 function events.tick()
   local walking = player:getVelocity().xz:length() > 0.01
@@ -96,6 +104,11 @@ end
 
 function stopAnim()
   animations.BonBon.sit:setPlaying(false)
+  animations.BonBon.loaf:setPlaying(false)
+  if models.BonBon.root.RightArm.shoulderConnector2:getVisible()then
+    models.BonBon.root.RightArm.shoulderConnector2:setVisible(false)
+    models.BonBon.root.LeftArm.shoulderConnector:setVisible(false)
+  end
 end
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
       queue = queue - 1

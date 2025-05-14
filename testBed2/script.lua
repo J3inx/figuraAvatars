@@ -190,7 +190,7 @@ function pings.wingsOut(state) -- Pings are how other players can see your actio
 end
 toggles:newAction()
 :title("go back")
-:item("barrier")
+:item("red_wool")
 :onLeftClick(function()
   action_wheel:setPage(mainPage)
 end)
@@ -202,7 +202,7 @@ mainPage:newAction()
 end)
 actorsAction:newAction()
 :title("go back")
-:item("barrier")
+:item("red_wool")
 :onLeftClick(function()
   action_wheel:setPage(mainPage)
 end)
@@ -360,7 +360,7 @@ ScaleControl = ResizePage:newAction()
 end)
 ResizePage:newAction()
     :title("go back §7(leftclick)§r")
-    :item("barrier")
+    :item("red_wool")
     :onLeftClick(function() action_wheel:setPage(mainPage) end) 
 
 function shakeModel()
@@ -479,6 +479,25 @@ end
 --"delta" is the percentage between the last and the next tick (as a decimal value, 0.0 to 1.0)
 --"context" is a string that tells from where this render event was called (the paperdoll, gui, player render, first person)
 function events.render(delta, context)
+ 
+  if fullSit then
+    if fullB then
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(false)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 2"]:setVisible(false)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 3"]:setVisible(false)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(false)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(false)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(false)
+    else
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(true)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 2"]:setVisible(true)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 3"]:setVisible(true)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(true)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(true)
+      models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(true)
+    end
+
+end
   if animating then
     models.example:setVisible(false)
     models.DVanDrag.head2.Head.leftEar:setVisible(true)
@@ -509,7 +528,7 @@ function events.render(delta, context)
     if sit then
       models.DVanDrag.head2.Head:setPos(0, -4, 0)
     else
-      models.DVanDrag.head2.Head:setPos(0,4,0)
+      --models.DVanDrag.head2.Head:setPos(0,4,0)
     end
     
 else
@@ -597,6 +616,12 @@ end
   end
   if player:isGliding() then
     animations.DVanDrag.glide:setPlaying(true)
+    
+      models.example.Body.tail:setRot(70,0,0)
+      models.example.Body.tail.tail2:setRot(5,0,0)
+      models.example.Body.tail.tail2.tail3:setRot(5,0,0)
+      models.example.Body.tail.tail2.tail3.tail4:setRot(5,0,0)
+    
   else
     animations.DVanDrag.glide:setPlaying(false)
   end
