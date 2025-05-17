@@ -175,6 +175,8 @@ emotionPage:newAction()
 		if textures["heavyDistressed"] then
 	models.model.root.Head.Head:primaryTexture("CUSTOM", textures["heavyDistressed"])
     models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["heavyDistressed"])
+    models.Skull.root.Head.Head:primaryTexture("CUSTOM", textures["heavyDistressed"])
+    models.Skull.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["heavyDistressed"])
 
 	animations.model.shockedEyes:setPlaying(true)
 
