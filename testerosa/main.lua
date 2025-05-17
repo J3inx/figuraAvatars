@@ -33,6 +33,11 @@ local eyeMoveOn = true
 local jetOnElytra = true
 local voiceToggle = true
 local textBoxOn = true
+local heads = {}
+local skull_model = models.Skull
+
+--123yeah_boi321's SQUASHSCRIPT
+local DURATION = 30
 -- KorboSpeech v2.1.3 by @korbosoft
 -- With edits by @manuel_2867, @customable, @skunkmommy179
 local voiceSounds = {
@@ -69,6 +74,15 @@ local returntbl2 = {
     pagename = "blinkPage"
 }
 
+function events.world_tick()
+    local count = 0
+    for i,v in pairs(heads) do 
+        count = count + 1
+        v.stretch = v.stretch + 1
+        if v.stretch >= DURATION then heads[i] = nil end
+    end
+    
+end
 function changeModel()
     if player:getModelType() == "DEFAULT" then
         --models.model:setVisible(false)
@@ -131,6 +145,8 @@ emotionPage:newAction()
 		if textures["sad"] then
 	models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["sad"])
     models.model.root.Head.Head:primaryTexture("CUSTOM", textures["sad"])
+    models.Skull.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["sad"])
+    models.Skull.root.Head.Head:primaryTexture("CUSTOM", textures["sad"])
 	animations.model.shockedEyes:setPlaying(false)
 		else
 			log("sad texture missing")
@@ -144,6 +160,8 @@ emotionPage:newAction()
 		if textures["skin"] then
 	models.model.root.Head.Head:primaryTexture("CUSTOM", textures["skin"])
     models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["skin"])
+    models.Skull.root.Head.Head:primaryTexture("CUSTOM", textures["skin"])
+    models.Skull.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["skin"])
 
 	animations.model.shockedEyes:setPlaying(false)
 		else
@@ -500,7 +518,77 @@ function events.render(delta, type)
     if type == "FIRST_PERSON" or type == "RENDER" then return end
     models:setScale(1, 1, 1)
 end
+function events.SKULL_RENDER(delta,block,item,entity,type)
+    if type == "BLOCK" then
+        
+        for name,player in pairs(world.getPlayers()) do
+            local target_block,hit_pos,side = player:getTargetedBlock()
+            if player:getSwingTime() == 2 and target_block:getPos() == block:getPos() then
+                sounds:playSound("lbp_squish",block:getPos(),0.5)
+                heads[tostring(block:getPos())] = {stretch = 0}
+            end
+        end
+        local head = heads[tostring(block:getPos())]
+        if head then
+            local stretch = outElastic(head.stretch+delta, 0.1, -0.1, DURATION, 1, 6)
+            if block.id:find("wall") then
+                stretch = stretch/2
+                skull_model:setScale(1+stretch,1+stretch,1-stretch)
+                skull_model:setPos(0,-stretch*4,stretch*4)
+            else
+                skull_model:setScale(1+stretch,1-stretch,1+stretch)
+            end
+        else
+            skull_model:setScale(1)
+            skull_model:setPos(0,0,0)
+        end
+    else
+        skull_model:setScale(1)
+        skull_model:setPos(0,0,0)    
+    end
+end
 
+function outElastic(t, b, c, d, a, p)
+    if t == 0 then return b end
+  
+    t = t / d
+  
+    if t == 1 then return b + c end
+  
+    if not p then p = d * 0.3 end
+  
+    local s
+  
+    if not a or a < math.abs(c) then
+      a = c
+      s = p / 4
+    else
+      s = p / (2 * math.pi) * math.asin(c/a)
+    end
+  
+    return a * math.pow(2, -10 * t) * math.sin((t * d - s) * (2 * math.pi) / p) + c + b
+  end
+
+function outElastic(t, b, c, d, a, p)
+    if t == 0 then return b end
+  
+    t = t / d
+  
+    if t == 1 then return b + c end
+  
+    if not p then p = d * 0.3 end
+  
+    local s
+  
+    if not a or a < math.abs(c) then
+      a = c
+      s = p / 4
+    else
+      s = p / (2 * math.pi) * math.asin(c/a)
+    end
+  
+    return a * math.pow(2, -10 * t) * math.sin((t * d - s) * (2 * math.pi) / p) + c + b
+  end
 
 function events.post_render(delta, type)
     if type == "FIRST_PERSON" or type == "RENDER" then return end
