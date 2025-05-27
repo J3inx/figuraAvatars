@@ -478,7 +478,12 @@ events.TICK:register(function()
         models:setPos(0, 0, 0)
         nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2, 0)
     end
-  
+    if player:getVehicle() and ((player:getVehicle():getType() == "minecraft:oak_stairs") or (player:getVehicle():getType() == "minecraft:spruce_stairs"))then
+        
+        models.model.root:setPos(0,20,0)
+    else
+        models.model.root:setPos(0,0,0)
+    end
     if host:isHost() then
         if timer > 0 then
             timer = timer - 1

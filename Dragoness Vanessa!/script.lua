@@ -13,7 +13,7 @@ vanilla_model.PLAYER:setVisible(false)
 --hide vanilla armor model
 vanilla_model.ARMOR:setVisible(false)
 --re-enable the helmet item
-vanilla_model.HELMET_ITEM:setVisible(true)
+--vanilla_model.HELMET_ITEM:setVisible(true)
 
 --hide vanilla cape model
 vanilla_model.CAPE:setVisible(false)
@@ -524,7 +524,7 @@ end
   if player:getPose() == "CROUCHING" then
     
     
-    models.DVanDrag.bodies.Body.cabs:setOffsetPivot(0,-25,0)
+    models.DVanDrag.bodies.Body.cabs:setPos(0,1.5,-0.85)
     if sit then
       models.DVanDrag.head2.Head:setPos(0, -4, 0)
     else
@@ -532,6 +532,7 @@ end
     end
     
 else
+  models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
   models.example.Body:setPos(0, -13, 2) 
   models.example.Body:setRot(35) 
   models.example.LeftLeg:setPos(0, -10, 0)
@@ -576,6 +577,7 @@ end
     models.example.RightLeg:setRot(30)
     models.example.Head:setPos(0, -15, 5)
     models.example.Head:setRot(30)
+    
   else
     animations.DVanDrag.sit:setPlaying(false)
     animations.example.sit:setPlaying(false)
