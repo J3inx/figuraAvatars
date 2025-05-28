@@ -314,8 +314,7 @@ actorsAction:newAction()
 end)
 function pings.sit()
   animating = false
-  fullB2 = false
-     fullB = false
+ 
   nuts = false
   sit = true
   jorkin = false
@@ -575,6 +574,7 @@ end
     models.example.LeftLeg:setRot(30)
     models.example.RightLeg:setPos(0, -10, 0)
     models.example.RightLeg:setRot(30)
+  models.DVanDrag:setPos(0,1,0)
     models.example.Head:setPos(0, -15, 5)
     models.example.Head:setRot(30)
     
@@ -589,6 +589,23 @@ end
     models.example.RightLeg:setRot(0)
     models.example.Head:setPos(0,0,0)
     models.example.Head:setRot(0)
+  end
+  if fullB and sit or fullB2 and sit then
+    models.DVanDrag.bodies.RightLeg:setRot(10,-20,0)
+    models.DVanDrag.bodies.LeftLeg:setRot(10,20,0)
+    models.DVanDrag.bodies.Body.cabs:setPos(0,2,0)
+    models.DVanDrag.bodies.Body.cabs:setRot(5,0,0)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(false)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(false)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(false)
+  else
+    models.DVanDrag.bodies.RightLeg:setRot(0,0,0)
+    models.DVanDrag.bodies.LeftLeg:setRot(0,0,0)
+    models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
+    models.DVanDrag.bodies.Body.cabs:setRot(0,0,0)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(true)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(true)
+    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(true)
   end
   if cocShown then
     models.DVanDrag.bodies.Body.cabs:setVisible(true)
