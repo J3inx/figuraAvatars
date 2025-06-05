@@ -6,7 +6,7 @@ defaultScale = 1
 --secondary scale value used in action wheel
 savedScale = 0.4
 --true if using your own model, false if you just want a vanilla avatar
-custom_model = false
+custom_model = true
 
 --if you are using a custom model then choose the camera adjustment you need (for shorter/taller characters, keep 1 if normal sized)
 camera_adjust = 1

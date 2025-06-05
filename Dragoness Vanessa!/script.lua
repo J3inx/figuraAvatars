@@ -287,7 +287,7 @@ toggles:newAction()
  
 end)
 function pings.fballs()
-  animating = true
+  --animating = true
   if fullB then
     fullB = false
    
@@ -310,7 +310,7 @@ toggles:newAction()
  
 end)
 function pings.fballs2()
-  animating = true
+  --animating = true
   if fullB2 then
     fullB2 = false
     
@@ -649,6 +649,7 @@ end
     models.example.RightLeg:setRot(0)
     models.example.Head:setPos(0,0,0)
     models.example.Head:setRot(0)
+    models.DVanDrag:setPos(0,0,0)
   end
   if fullB and sit or fullB2 and sit then
     models.DVanDrag.bodies.RightLeg:setRot(10,-20,0)
