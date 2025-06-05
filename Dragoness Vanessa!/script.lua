@@ -171,7 +171,7 @@ function pings.NSFW(state) -- Pings are how other players can see your actions
   :toggleTitle("turn off erect cock")
   :item("cooked_beef")
   :setOnToggle(function(state)
-    print("Toggled NSFW:", state)
+    print("Toggled erection:", state)
     
     pings.Erecter(state)
   end)
@@ -433,8 +433,8 @@ function pings.jorker()
   end
   function pings.fullSit()
     animating = true
-    fullB2 = false
-       fullB = false
+    --fullB2 = false
+      -- fullB = false
     nuts = false
     sit = false
     jorkin = false
@@ -442,8 +442,15 @@ function pings.jorker()
     end
 --tick event, called 20 times per second
 function events.tick()
-  if not animating and Erect then
+  if Erect and fullB or Erect and fullB2 then
+    animations.DVanDrag.erectCock:setPlaying(false)
+  else
     animations.DVanDrag.erectCock:setPlaying(true)
+  end
+  if not animating and Erect or animating and Erect then
+    if not fullB and not fullB2 then
+    animations.DVanDrag.erectCock:setPlaying(true)
+    end
 else
   animations.DVanDrag.erectCock:setPlaying(false)
 end
@@ -516,13 +523,14 @@ end)
 
 function events.render(delta, type)
   models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
-  models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
+  models.example.Body.Rwing:setPrimaryRenderType("translucent_cull")
+  models.DVanDrag.bodies.Body.Lwing:setPrimaryRenderType("translucent_cull")
+  models.DVanDrag.bodies.Body.Rwing:setPrimaryRenderType("translucent_cull")
   if context == "PAPERDOLL" or context == "GUI" then
     models:setScale(1, 1, 1)
 end
  if fullSit then
-  models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
-  models.example.Body.Rwing:setPrimaryRenderType("translucent")
+ 
    models.DVanDrag.bodies.Body.Rwing:setRot(0,2,0)
    models.DVanDrag.bodies.Body.Lwing:setRot(0,178,0)
  end
@@ -580,17 +588,33 @@ end
     models.DVanDrag.bodies.LeftLeg.LL.Thigh.ButtL:setVisible(false)
     models.DVanDrag.bodies.RightLeg.RL.Thigh1.ButtR:setVisible(false)
   end
+  if sit then
+    models.DVanDrag.head2:setRot(-20.5,0,0)
+    models.DVanDrag.head2:setPos(0,-2,0)
+    models.example.Body.RTIT:setPos(0,0.5,-1)
+    models.example.Body.LTIT:setPos(0,0.5,-1)
+  else
+    models.DVanDrag.head2:setRot(0,0,0)
+    models.DVanDrag.head2:setPos(0,0,0)
+    models.example.Body.RTIT:setPos(0,0,0)
+    models.example.Body.LTIT:setPos(0,0,0)
+  end
   if player:getPose() == "CROUCHING" then
     
-    
+    models.DVanDrag.head2:setPos(0, -4, 0)
     models.DVanDrag.bodies.Body.cabs:setPos(0,1.5,-0.85)
+    models.example:setRot(5,0,0)
+    --models.example.Body.RTIT:setRot(0,0,0)
+    --models.example.Body.LTIT:setRot(0,0,0)
     if sit then
       models.DVanDrag.head2.Head:setPos(0, -4, 0)
+      
     else
-      --models.DVanDrag.head2.Head:setPos(0,4,0)
+      models.DVanDrag.head2.Head:setPos(0,4,0)
     end
     
 else
+  models.example:setRot(0,0,0)
   models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
   models.example.Body:setPos(0, -13, 2) 
   models.example.Body:setRot(35) 
