@@ -52,7 +52,9 @@ action_wheel:setPage(mainPage)
 camera = require("camera")
 local animating = false
 local cocShown = false
+local Erect = false
 local fullB = false
+local ballPshown = true
 local fullB2 = false
 local fullSit = false
 local sit = false
@@ -165,6 +167,20 @@ function pings.NSFW(state) -- Pings are how other players can see your actions
   cocShown = state
   end
   local togglename = toggles:newAction()
+  :title("turn on erect cock")
+  :toggleTitle("turn off erect cock")
+  :item("cooked_beef")
+  :setOnToggle(function(state)
+    print("Toggled NSFW:", state)
+    
+    pings.Erecter(state)
+  end)
+function pings.Erecter(state) -- Pings are how other players can see your actions
+  --if not player:isLoaded() then return end -- This stops players erroring from you trying to use something they haven't loaded in
+  --models.DVanDrag.bodies.cabs:setVisible(state)
+  Erect = state
+  end
+  local togglename = toggles:newAction()
   :title("fold wings in")
   :toggleTitle("unfold wings")
   :item("elytra")
@@ -207,6 +223,37 @@ actorsAction:newAction()
   action_wheel:setPage(mainPage)
 end)
 toggles:newAction()
+:title("toggle ball prey")
+:item("ender_pearl")
+:onLeftClick(function()
+  if ballPshown then
+    print("hid the ball prey")
+   else
+     print("showed the ball prey")
+   end
+  pings.ballP()
+ 
+end)
+function pings.ballP()
+  if ballPshown then
+   ballPshown = false
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(false)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 2"]:setVisible(false)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 3"]:setVisible(false)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(false)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(false)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(false)
+   else
+     ballPshown = true
+     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(true)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 2"]:setVisible(true)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 3"]:setVisible(true)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(true)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(true)
+   models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(true)
+   end
+  end
+toggles:newAction()
 :title("toggle da coc")
 :item("sugar")
 :onLeftClick(function()
@@ -240,6 +287,7 @@ toggles:newAction()
  
 end)
 function pings.fballs()
+  animating = true
   if fullB then
     fullB = false
    
@@ -262,6 +310,7 @@ toggles:newAction()
  
 end)
 function pings.fballs2()
+  animating = true
   if fullB2 then
     fullB2 = false
     
@@ -393,6 +442,11 @@ function pings.jorker()
     end
 --tick event, called 20 times per second
 function events.tick()
+  if not animating and Erect then
+    animations.DVanDrag.erectCock:setPlaying(true)
+else
+  animations.DVanDrag.erectCock:setPlaying(false)
+end
   if sit then
     models.example.Body:setPos(0,0,0)
     models.example.Body:setRot(30)
@@ -461,11 +515,17 @@ events.TICK:register(function()
 end)
 
 function events.render(delta, type)
-  models.example.Body.Lwing:setPrimaryRenderType("cutout_cull")
-  models.example.Body.Rwing:setPrimaryRenderType("cutout_cull")
+  models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
+  models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
   if context == "PAPERDOLL" or context == "GUI" then
     models:setScale(1, 1, 1)
 end
+ if fullSit then
+  models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
+  models.example.Body.Rwing:setPrimaryRenderType("translucent")
+   models.DVanDrag.bodies.Body.Rwing:setRot(0,2,0)
+   models.DVanDrag.bodies.Body.Lwing:setRot(0,178,0)
+ end
 end
 
 function events.post_render(delta, type)
@@ -607,6 +667,7 @@ end
     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(true)
     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(true)
   end
+  
   if cocShown then
     models.DVanDrag.bodies.Body.cabs:setVisible(true)
     --models.DVandDrag.bodies.cabs.cock:setVisible(true)
@@ -645,6 +706,7 @@ end
     animations.DVanDrag.glide:setPlaying(false)
   end
   local walking = player:getVelocity().xz:length() > 0.01
+  
   if walking and player:getVelocity().xz:length() < 1 then
     --animations.DVanDrag.walks:setPlaying(true)
     if prevAnimF2 then

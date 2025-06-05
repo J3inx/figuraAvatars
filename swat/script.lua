@@ -18,6 +18,37 @@ vanilla_model.ELYTRA:setVisible(false)
 function events.entity_init()
   --player functions goes here
 end
+local mainPage = action_wheel:newPage()
+local toggles = action_wheel:newPage()
+local maskState = true
+action_wheel:setPage(mainPage)
+mainPage:newAction()
+:title("go to toggle page")
+:item("lever")
+:onLeftClick(function ()
+  action_wheel:setPage(toggles)
+end)
+toggles:newAction()
+:title("go to main page")
+:item("red_wool")
+:onLeftClick(function ()
+  action_wheel:setPage(mainPage)
+end)
+toggles:newAction()
+:title("toggle mask")
+:item("iron_helmet")
+:onLeftClick(function ()
+  if maskState then
+    animations.swat.visorUp:setPlaying(true)
+    animations.swat.visorDown:setPlaying(false)
+    maskState = false
+  else
+    animations.swat.visorUp:setPlaying(false)
+    animations.swat.visorDown:setPlaying(true)
+    maskState = true
+  end
+  
+end)
 
 events.RENDER:register(function(delta)
   --models.swat:setPrimaryRenderType("cutout_cull")
