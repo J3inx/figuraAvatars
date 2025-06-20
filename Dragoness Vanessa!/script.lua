@@ -522,6 +522,11 @@ events.TICK:register(function()
 end)
 
 function events.render(delta, type)
+  if sit then
+    renderer:setOffsetCameraPivot(0, -0.25, 0)
+  else
+    renderer:setOffsetCameraPivot(0, 0, 0)
+  end
   models.example.Body.Lwing:setPrimaryRenderType("translucent_cull")
   models.example.Body.Rwing:setPrimaryRenderType("translucent_cull")
   models.DVanDrag.bodies.Body.Lwing:setPrimaryRenderType("translucent_cull")
@@ -650,8 +655,10 @@ end
     animations.DVanDrag.fNUT:setPlaying(false)
   end
   if sit then
+    
     animations.DVanDrag.sit:setPlaying(true)
     animations.example.sit:setPlaying(true)
+    models.DVanDrag.head2.Head:setPos(0, 0, -2)
     models.example.Body:setPos(0, -13, 2) 
     models.example.Body:setRot(35)
     models.example.LeftLeg:setPos(0, -10, 0)
@@ -659,12 +666,14 @@ end
     models.example.RightLeg:setPos(0, -10, 0)
     models.example.RightLeg:setRot(30)
   models.DVanDrag:setPos(0,1,0)
-    models.example.Head:setPos(0, -15, 5)
+    models.example.Head:setPos(0, -14, 4)
     models.example.Head:setRot(30)
+    
     
   else
     animations.DVanDrag.sit:setPlaying(false)
     animations.example.sit:setPlaying(false)
+    models.DVanDrag.head2.Head:setPos(0, 0, 0)
     models.example.Body:setPos(0,0,0)
     models.example.Body:setRot(0)
     models.example.LeftLeg:setPos(0,0,0)

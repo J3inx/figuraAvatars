@@ -52,6 +52,7 @@ end)
 
 events.RENDER:register(function(delta)
   models.swat.root.Head.HelmetGroup.VisorGroup.visor:setPrimaryRenderType("translucent_cull")
+  models.swat.root.Head.HelmetGroup.VisorGroup.visorBack:setPrimaryRenderType("translucent_cull")
 
 end)
 --tick event, called 20 times per second

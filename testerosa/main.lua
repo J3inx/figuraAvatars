@@ -498,7 +498,7 @@ function events.skull_render(delta, block, item, entity, mode)
 end
 function events.render(delta, type)
     --most of the stuff below is broken
-    if player:getItem(6).id == "minecraft:redstone_torch" then
+    if player:getItem(6).id == "minecraft:redstone_torch" or  player:getItem(6).id == "minecraft:spyglass" then
         vanilla_model.HELMET_ITEM:setVisible(false)
         models.model.root.Head.Helmer:setVisible(true)
         models.model.root.Body.creatinator_tank:setVisible(true)
