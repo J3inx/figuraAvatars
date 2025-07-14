@@ -598,6 +598,7 @@ end
     models.DVanDrag.head2:setPos(0,-2,0)
     models.example.Body.RTIT:setPos(0,0.5,-1)
     models.example.Body.LTIT:setPos(0,0.5,-1)
+    models.example.Head:setPos(0, 0, 0)
   else
     models.DVanDrag.head2:setRot(0,0,0)
     models.DVanDrag.head2:setPos(0,0,0)
@@ -606,13 +607,15 @@ end
   end
   if player:getPose() == "CROUCHING" then
     
-    models.DVanDrag.head2:setPos(0, -4, 0)
+    models.DVanDrag.head2:setPos(0, 0, 0)
+    models.example.Head:setPos(0, 0, -2)
     models.DVanDrag.bodies.Body.cabs:setPos(0,1.5,-0.85)
     models.example:setRot(5,0,0)
     --models.example.Body.RTIT:setRot(0,0,0)
     --models.example.Body.LTIT:setRot(0,0,0)
     if sit then
-      models.DVanDrag.head2.Head:setPos(0, -4, 0)
+      models.DVanDrag.head2.Head:setPos(0, -8, 0)
+      --models.example.Head:setPos(0, -10, -2)
       
     else
       models.DVanDrag.head2.Head:setPos(0,4,0)
@@ -627,9 +630,10 @@ else
   models.example.LeftLeg:setRot(30)
   models.example.RightLeg:setPos(0, -10, 0)
   models.example.RightLeg:setRot(30)
-  models.example.Head:setPos(0, -15, 5)
+  models.example.Head:setPos(0, 0, 0)
+ -- models.example.Head:setPos(0, -15, 5)
   models.DVanDrag.head2.Head:setPos(0,0,0)
-  models.example.Head:setRot(30)
+ -- models.example.Head:setRot(30)
 end
   local camRot = player:getRot()
   local bodyRot = vanilla_model.BODY:getOriginRot()
@@ -666,8 +670,8 @@ end
     models.example.RightLeg:setPos(0, -10, 0)
     models.example.RightLeg:setRot(30)
   models.DVanDrag:setPos(0,1,0)
-    models.example.Head:setPos(0, -14, 4)
-    models.example.Head:setRot(30)
+    models.example.Head:setPos(0, -14, 3)
+   -- models.example.Head:setRot(30)
     
     
   else
@@ -680,8 +684,8 @@ end
     models.example.LeftLeg:setRot(0)
     models.example.RightLeg:setPos(0,0,0)
     models.example.RightLeg:setRot(0)
-    models.example.Head:setPos(0,0,0)
-    models.example.Head:setRot(0)
+   models.example.Head:setPos(0,0,0)
+   --models.example.Head:setRot(0)
     models.DVanDrag:setPos(0,0,0)
   end
   if fullB and sit or fullB2 and sit then
