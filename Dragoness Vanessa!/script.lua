@@ -503,7 +503,9 @@ end
 local timer = 200
 events.TICK:register(function()
     if player:getPose() == "CROUCHING" then
+      
         models:setPos(0, 2, 0)
+        
         
         nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2 + 4 / 16, 0)
     else
@@ -551,7 +553,8 @@ end
 --"delta" is the percentage between the last and the next tick (as a decimal value, 0.0 to 1.0)
 --"context" is a string that tells from where this render event was called (the paperdoll, gui, player render, first person)
 function events.render(delta, context)
- 
+ models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
+ models.example.Head:setPos(0,0,0)
   if fullSit then
     if fullB then
       models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(false)
@@ -609,7 +612,9 @@ end
     
     models.DVanDrag.head2:setPos(0, 0, 0)
     models.example.Head:setPos(0, 0, -2)
-    models.DVanDrag.bodies.Body.cabs:setPos(0,1.5,-0.85)
+    --models.DVanDrag.bodies.Body.cabs:setPos(0,1.5,10)
+    models.DVanDrag.bodies.Body.cabs:setPos(0,2.5,-0.8)
+    models.example.Head:setPos(0,0,-2)
     models.example:setRot(5,0,0)
     --models.example.Body.RTIT:setRot(0,0,0)
     --models.example.Body.LTIT:setRot(0,0,0)
@@ -623,14 +628,14 @@ end
     
 else
   models.example:setRot(0,0,0)
-  models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
+  --models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
   models.example.Body:setPos(0, -13, 2) 
   models.example.Body:setRot(35) 
   models.example.LeftLeg:setPos(0, -10, 0)
   models.example.LeftLeg:setRot(30)
   models.example.RightLeg:setPos(0, -10, 0)
   models.example.RightLeg:setRot(30)
-  models.example.Head:setPos(0, 0, 0)
+ 
  -- models.example.Head:setPos(0, -15, 5)
   models.DVanDrag.head2.Head:setPos(0,0,0)
  -- models.example.Head:setRot(30)
@@ -684,9 +689,9 @@ end
     models.example.LeftLeg:setRot(0)
     models.example.RightLeg:setPos(0,0,0)
     models.example.RightLeg:setRot(0)
-   models.example.Head:setPos(0,0,0)
+   
    --models.example.Head:setRot(0)
-    models.DVanDrag:setPos(0,0,0)
+    --models.DVanDrag:setPos(0,0,0)
   end
   if fullB and sit or fullB2 and sit then
     models.DVanDrag.bodies.RightLeg:setRot(10,-20,0)
@@ -699,8 +704,8 @@ end
   else
     models.DVanDrag.bodies.RightLeg:setRot(0,0,0)
     models.DVanDrag.bodies.LeftLeg:setRot(0,0,0)
-    models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
-    models.DVanDrag.bodies.Body.cabs:setRot(0,0,0)
+    --models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
+    --models.DVanDrag.bodies.Body.cabs:setRot(0,0,0)
     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(true)
     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 5"]:setVisible(true)
     models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 4"]:setVisible(true)
