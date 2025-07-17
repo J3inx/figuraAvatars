@@ -555,6 +555,7 @@ end
 function events.render(delta, context)
  models.DVanDrag.bodies.Body.cabs:setPos(0,0,0)
  models.example.Head:setPos(0,0,0)
+ models.DVanDrag:setPos(0,0,0)
   if fullSit then
     if fullB then
       models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 1"]:setVisible(false)
