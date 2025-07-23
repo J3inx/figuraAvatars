@@ -1,7 +1,8 @@
 -- Auto generated script file --
 config = require("config")
+local soundsy = require("sounds")
 local tailPhysics = require('tail')
-
+local intervalTicks = 60
 local tail = tailPhysics.new(models.example.Body.tail)--.tail2)
 -- Change scale to X
 local defaultScale = config.defaultScale
@@ -44,6 +45,7 @@ tail:setConfig {
 --action pages:
 local ResizePage = action_wheel:newPage("ResizePage")
 local mainPage = action_wheel:newPage()
+local soundPage = action_wheel:newPage()
 local toggles = action_wheel:newPage()
 local actorsAction = action_wheel:newPage()
 action_wheel:setPage(mainPage)
@@ -152,6 +154,67 @@ mainPage:newAction()
 :onLeftClick(function ()
   action_wheel:setPage(toggles)
 end)
+
+events.TICK:register(function ()
+  soundsy.tick()
+end)
+
+mainPage:newAction()
+:title("sounds")
+:item("note_block")
+:onLeftClick(function ()
+  --soundsy.plays(1)
+  action_wheel:setPage(soundPage)
+end)
+
+local toggleLooping = soundPage:newAction()
+  :title("sound looping off")
+  :toggleTitle("sound looping on")
+  :item("arrow")
+  :setOnToggle(function(state)
+    print("Toggled sound looping:", state)
+    soundsy.setLoop(state)
+    if state == false then
+      sounds:stopSound()
+    end
+    
+  end)
+
+  soundPage:newAction()
+:title("play gurgle")
+:item("water_bucket")
+:onLeftClick(function ()
+  soundsy.plays(1)
+
+end)
+
+
+local RateControl = soundPage:newAction()
+  :title("Change Loop Interval §7(Left Click) or §7(Right Click)")
+  :item("clock")
+  :onLeftClick(function()
+    intervalTicks = math.min(intervalTicks + 10, 600)  -- max 30 seconds, adjust if needed
+    soundsy.setInterval(intervalTicks)
+    print("loop interval is now: ", intervalTicks/20, "s")
+    --updateIntervalTitle()
+  end)
+  :onRightClick(function()
+    intervalTicks = math.max(intervalTicks - 10, 10) -- min 0.5 seconds (10 ticks)
+    soundsy.setInterval(intervalTicks)
+    print("loop interval is now: ", intervalTicks/20, "s")
+    --updateIntervalTitle()
+  end)
+
+
+
+soundPage:newAction()
+:title("go back to main")
+:item("red_wool")
+:onLeftClick(function ()
+  action_wheel:setPage(mainPage)
+end)
+
+
 local togglename = mainPage:newAction()
   :title("turn on NSFW")
   :toggleTitle("turn off NSFW")
