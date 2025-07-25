@@ -232,7 +232,7 @@ function pings.NSFW(state) -- Pings are how other players can see your actions
   local togglename = toggles:newAction()
   :title("turn on erect cock")
   :toggleTitle("turn off erect cock")
-  :item("cooked_beef")
+  :item("cooked_porkchop")
   :setOnToggle(function(state)
     print("Toggled erection:", state)
     
@@ -316,30 +316,10 @@ function pings.ballP()
    models["DVanDrag"]["bodies"]["Body"]["cabs"]["ball prey 6"]:setVisible(true)
    end
   end
-toggles:newAction()
-:title("toggle da coc")
-:item("sugar")
-:onLeftClick(function()
-  if cocShown then
-    print("hid the coc")
-   else
-     print("showed the coc")
-   end
-  pings.cock()
- 
-end)
-function pings.cock()
-  if cocShown then
-    cocShown = false
-   
-   else
-     cocShown = true
-     
-   end
-  end
+
 toggles:newAction()
 :title("full balls")
-:item("compass")
+:item("snowball")
 :onLeftClick(function()
   if cocShown then
     print("balls filled")
@@ -362,7 +342,7 @@ function pings.fballs()
   end
 toggles:newAction()
 :title("full balls 2")
-:item("egg")
+:item("snow_block")
 :onLeftClick(function()
   if cocShown then
     print("balls overflowing")
@@ -417,18 +397,29 @@ actorsAction:newAction()
  
 end)
 actorsAction:newAction()
-:title("sit")
-:item("oak_stairs")
-:onLeftClick(function()
+
+    :title("sit §7(leftclick)§r")
+  :toggleTitle("standup §7(leftclick)§r")
+  :item("nether_brick_stairs")
+  :setOnToggle(function(state)
+    
+    pings.sit()
+
   
-  pings.sit()
  
 end)
 function pings.sit()
+  if sit then
+    sit = false
+    animations.DVanDrag.sit:setPlaying(false)
+    animations.example.sit:setPlaying(false)
+  else
+    sit = true
+  end
   animating = false
  
   nuts = false
-  sit = true
+  
   jorkin = false
   fullSit = false
 end
@@ -520,10 +511,10 @@ end
   if sit then
     models.example.Body:setPos(0,0,0)
     models.example.Body:setRot(30)
-    models.example.LeftLeg:setPos(0,0,0)
-    models.example.LeftLeg:setRot(30)
-    models.example.RightLeg:setPos(0,0,0)
-    models.example.RightLeg:setRot(30)
+    --models.example.LeftLeg:setPos(0,0,0)
+    --models.example.LeftLeg:setRot(30)
+    --models.example.RightLeg:setPos(0,0,0)
+    --models.example.RightLeg:setRot(30)
     models.example.Head:setPos(0, 0,0)
     models.example.Head:setRot(30)
   end
@@ -589,6 +580,13 @@ end)
 function events.render(delta, type)
   if sit then
     renderer:setOffsetCameraPivot(0, -0.25, 0)
+    animations.DVanDrag.sit:setOverride(true)
+    animations.DVanDrag.sit:setPlaying(true)
+    
+    animations.example.sit:setPlaying(true)
+    animations.example.sit:setOverride(true)
+    models.DVanDrag.bodies.LeftLeg:setRot(0,0,0)
+    models.DVanDrag.bodies.RightLeg:setRot(0,0,0)
   else
     renderer:setOffsetCameraPivot(0, 0, 0)
   end
@@ -728,9 +726,14 @@ end
     animations.DVanDrag.fNUT:setPlaying(false)
   end
   if sit then
-    
+    animations.DVanDrag.sit:setOverride(true)
     animations.DVanDrag.sit:setPlaying(true)
+    
     animations.example.sit:setPlaying(true)
+    animations.example.sit:setOverride(true)
+    models.DVanDrag.bodies.LeftLeg:setRot(0,0,0)
+    models.DVanDrag.bodies.RightLeg:setRot(0,0,0)
+    animations.DVanDrag.sit:setPriority(100)
     models.DVanDrag.head2.Head:setPos(0, 0, -2)
     models.example.Body:setPos(0, -13, 2) 
     models.example.Body:setRot(35)
@@ -829,7 +832,7 @@ end
     nuts = false
     jorkin = false
     fullSit = false
-    sit = false
+    
     animating = false
   else
     --animations.DVanDrag.walks:setPlaying(false)
