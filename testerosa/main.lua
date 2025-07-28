@@ -132,6 +132,7 @@ emotionPage:newAction()
 	:onLeftClick(function()
 		if textures["neutral"] then
 	models.model.root.Head.mouthGroup:primaryTexture("CUSTOM", textures["neutral"])
+    models.model.root.Head.Head:primaryTexture("CUSTOM", textures["neutral"])
 
 	animations.model.shockedEyes:setPlaying(false)
 		else
@@ -451,6 +452,8 @@ nameplate.ENTITY:setPos(0, (scale * returntbl["camera_adjust"] - 1) * 2.2, 0)
 function Resize(arg)
     pings.updateScale(arg)
 end
+
+
 
 function pings.updateScale(arg)
     scale = arg

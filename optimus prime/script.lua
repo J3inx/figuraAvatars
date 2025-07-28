@@ -97,13 +97,13 @@ end
 events.TICK:register(function()
   local dir = getMoveDirection()
   if dir == "forward" then
-      print("Moving Forward")
+      --print("Moving Forward")
   elseif dir == "backward" then
-      print("Moving Backward")
+      --print("Moving Backward")
   elseif dir == "left" then
-      print("Strafing right")
+      --print("Strafing right")
   elseif dir == "right" then
-      print("Strafing left")
+      --print("Strafing left")
   end
 end)
 

@@ -81,8 +81,9 @@ local ass = earsPhysics.new(models.example.LeftLeg.ButtL.Bc2, models.example.Rig
 local wings = earsPhysics.new(models.example.Body.Lwing, models.example.Body.Rwing)--models.example.Body.bone)--models.example.Body.Rwing)
 local prevAnimF2 = false
 local prevAnimF = false
-local wingsDos = earsPhysics.new(models.example.Body.Lwing2, models.example.Body.Rwing2)
-
+local wingsDos = earsPhysics.new(models.example.Body.Lwing3, models.example.Body.Rwing3)
+local wingsTres = earsPhysics.new(models.example.Body.Lwing2, models.example.Body.Rwing2)
+local whichWing = "fold"
 boobs:setConfig{
   lockXYRot = true, -- if true, X and Y rotation will always be set to 0
   --rotMin = vec(-12, -8, -4), -- rotation limit
@@ -119,7 +120,23 @@ wingsDos:setConfig{
   lockXYRot = true, -- if true, X and Y rotation will always be set to 0
   rotMin = vec(-12, -8, -4), -- rotation limit
   rotMax = vec(12, 8, 6), -- rotation limit
-  rotationAxis = "ZYX",
+  rotationAxis = "XYZ",
+  headRotStrength = 0,
+  extraAngle = 0,
+  --mirrorW = true,
+  disableHeadPitch = true,
+  disableHeadYaw = true,
+  earsFlick = false,
+  headRotMin = 0, -- minimum rotation for head rotation
+  headRotMax = 0 -- maximum rotation for head rotation
+}
+
+wingsTres:setConfig{
+  
+  lockXYRot = true, -- if true, X and Y rotation will always be set to 0
+  rotMin = vec(-12, -8, -4), -- rotation limit
+  rotMax = vec(12, 8, 6), -- rotation limit
+  rotationAxis = "XYZ",
   headRotStrength = 0,
   extraAngle = 0,
   --mirrorW = true,
@@ -244,8 +261,8 @@ function pings.Erecter(state) -- Pings are how other players can see your action
   Erect = state
   end
   local togglename = toggles:newAction()
-  :title("fold wings in")
-  :toggleTitle("unfold wings")
+  :title("unfold wings")
+  :toggleTitle("fold wings")
   :item("elytra")
   :setOnToggle(function(state)
     print("wings in?: ", state)
@@ -255,18 +272,50 @@ function pings.Erecter(state) -- Pings are how other players can see your action
 function pings.wingsOut(state) -- Pings are how other players can see your actions
   --if not player:isLoaded() then return end -- This stops players erroring from you trying to use something they haven't loaded in
   --models.DVanDrag.bodies.cabs:setVisible(state)
-  if state then
+  if not state then
+    whichWing = "fold"
     models.example.Body.Rwing:setVisible(false)
     models.example.Body.Lwing:setVisible(false)
     models.example.Body.Rwing2:setVisible(true)
     models.example.Body.Lwing2:setVisible(true)
+    models.example.Body.Rwing3:setVisible(false)
+    models.example.Body.Lwing3:setVisible(false)
   else
-    models.example.Body.Rwing:setVisible(true)
-    models.example.Body.Lwing:setVisible(true)
+    whichWing = "unfold"
+    models.example.Body.Rwing:setVisible(false)
+    models.example.Body.Lwing:setVisible(false)
     models.example.Body.Rwing2:setVisible(false)
     models.example.Body.Lwing2:setVisible(false)
+    models.example.Body.Rwing3:setVisible(true)
+    models.example.Body.Lwing3:setVisible(true)
   end
 end
+
+local togglename = toggles:newAction()
+  :title("enlargen wings")
+  :toggleTitle("shrink wings")
+  :item("anvil")
+  :setOnToggle(function(state)
+    print("wings shrunk?: ", state)
+    
+    pings.birdUp(state)
+  end)
+function pings.birdUp(state) -- Pings are how other players can see your actions
+  --if not player:isLoaded() then return end -- This stops players erroring from you trying to use something they haven't loaded in
+  --models.DVanDrag.bodies.cabs:setVisible(state)
+  if state then
+   models.example.Body.Rwing:setVisible(true)
+   models.example.Body.Lwing:setVisible(true)
+   models.example.Body.Rwing3:setVisible(false)
+   models.example.Body.Lwing3:setVisible(false)
+  else
+    models.example.Body.Rwing:setVisible(false)
+    models.example.Body.Lwing:setVisible(false)
+    models.example.Body.Rwing3:setVisible(true)
+    models.example.Body.Lwing3:setVisible(true)
+  end
+end
+
 toggles:newAction()
 :title("go back")
 :item("red_wool")
@@ -811,9 +860,24 @@ end
       models.example.Body.tail.tail2:setRot(5,0,0)
       models.example.Body.tail.tail2.tail3:setRot(5,0,0)
       models.example.Body.tail.tail2.tail3.tail4:setRot(5,0,0)
+      models.example.Body.Rwing3:setVisible(false)
+      models.example.Body.Lwing3:setVisible(false)
+      models.example.Body.Rwing2:setVisible(false)
+      models.example.Body.Lwing2:setVisible(false)
+      models.example.Body.Rwing:setVisible(true)
+      models.example.Body.Lwing:setVisible(true)
     
   else
     animations.DVanDrag.glide:setPlaying(false)
+    models.example.Body.Rwing:setVisible(false)
+      models.example.Body.Lwing:setVisible(false)
+      if whichWing == "fold" then
+        models.example.Body.Rwing2:setVisible(true)
+        models.example.Body.Lwing2:setVisible(true)
+      else
+        models.example.Body.Rwing3:setVisible(true)
+      models.example.Body.Lwing3:setVisible(true)
+      end
   end
   local walking = player:getVelocity().xz:length() > 0.01
   
