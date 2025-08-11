@@ -455,6 +455,7 @@ end
 
 
 
+
 function pings.updateScale(arg)
     scale = arg
     returntbl.scale = arg

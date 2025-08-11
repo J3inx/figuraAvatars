@@ -325,6 +325,7 @@ end
 
 -- === Tick Event === --
 function events.tick()
+ 
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
     queue = queue - 1
     if cancelPreviousSound and currentSound then currentSound:stop() end

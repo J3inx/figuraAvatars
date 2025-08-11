@@ -17,62 +17,54 @@ vanilla_model.CAPE:setVisible(false)
 vanilla_model.ELYTRA:setVisible(false)
 
 --action wheel setup
-local mainPage = action_wheel:newPage()
-action_wheel:setPage(mainPage)
+
+local sleeping = math.random(1500, 2500)
+
+
 --entity init event, used for when the avatar entity is loaded for the first time
 function events.entity_init()
-  --player functions goes here
+  log("The player api has loaded!")
+  local health, pos = player:getHealth(), player:getPos()
+  
 end
-function pings.scrolling(dir)
-  --log(dir)
-  if dir > 0 then
-      if selected == 5 then
-        selected = 0
-      else
-        selected = selected +1
-      end
-      log(selected)
-  else
-      
-      if selected == 0 then
-        selected = 5
-      else
-        selected = selected -1
-      end
-      log(selected)
-  end
-end
-mainPage:newAction()
-    :title("select sound §7(scroll)§r")
-    :item("jukebox")
-    :setOnScroll(pings.scrolling)
-mainPage:newAction()
-    :title("play sound §7(left click)§r")
-    :item("arrow")
-    :setOnLeftClick(function() 
-      if selected == 0 then
-        log("no sound selected")
-        
-      elseif selected == 1 then
-        sounds:playSound("testSound", player:getPos())
-        log("played sound 1")
-      elseif selected == 2 then 
-        sounds:playSound("testSound", player:getPos())
-        log("played sound 2")
-      elseif selected == 3 then 
-        sounds:playSound("testSound", player:getPos())
-        log("played sound 3")
-      elseif selected == 4 then 
-        sounds:playSound("testSound", player:getPos())
-        log("played sound 4")
-      elseif selected == 5 then 
-        sounds:playSound("testSound", player:getPos())
-        log("played sound 5")
 
-      
-    
-  end
-    end)
+
+
+   
+   local idlesounds = {"entity.creeper.ambient"}
+   function events.tick()
+   
+      -- randomly yawn and pant
+      if player:isLoaded() == true then
+        health= player:getHealth()
+        if player:getHealth() >= 4 then
+          print(health)
+      if sleeping >= 0 then
+         sleeping = sleeping - 1
+         print(sleeping)
+      else
+         -- choose random sound
+         print("played")
+         sounds:playSound(idlesounds[math.random(#idlesounds)], player:getPos(), 1, 1, false)
+         sleeping = math.random(1500, 2500)
+      end
+    end
+      if player:getHealth() >=4
+and client:isWindowFocused() == true then
+   print("In Focus")
+   --timer.cancel(sleeping)
+   --timer.start(abovehealth)
+end
+if client:isWindowFocused() == false then
+   print("Not in Focus")
+   --timer.start(sleeping)
+   --timer.cancel(abovehealth)
+   end
+end
+   end
+  
+
+
 
 --tick event, called 20 times per second
 function events.tick()
