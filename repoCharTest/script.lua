@@ -41,6 +41,7 @@ local funPage = action_wheel:newPage()
 local colorsPage = action_wheel:newPage()
 local cosmic = false
 local visibility = true
+local mVis = false
 local norm = true
 local none = false
 local lines = false
@@ -63,7 +64,7 @@ mainPage:newAction()
 end)
 mainPage:newAction()
 --half of these are broken:
-  :title("skull settings §7(leftclick)§r")
+  :title("toggles§7(leftclick)§r")
   :item("skeleton_skull")
   :onLeftClick(function() action_wheel:setPage(skullSettings) end)
   mainPage:newAction()
@@ -76,6 +77,15 @@ skullSettings:newAction()
   :title("go back §7(leftclick)§r")
   :item("barrier")
   :onLeftClick(function() action_wheel:setPage(mainPage) end)
+  local toggleMagic = skullSettings:newAction()
+  :title("show magic")
+  :toggleTitle("hide magic")
+  :item("book")
+  :setOnToggle(function(state)
+    print("Toggled magic visibility to:", state)
+    mVis = state
+    pings.toggleMagic(state)
+  end)
 
 
   local togglename = funPage:newAction()
@@ -239,7 +249,13 @@ pings.togglename2 = function(state)
   print("Toggle called. Visibility set to:", state)
   visibility = state
 end
+pings.toggleMagic =  function(state)
 
+
+  models.RepoTest.root.spine.butt.abdomen.neck.head.beard:setVisible(state)
+
+
+end
 pings.Rline = function()
   if not lines then
     lines = true
@@ -322,10 +338,41 @@ function events.chat_send_message(msg)
 end
 return msg
 end
+local keybindState = false
+function pings.examplePing(state)
+  keybindState = state
+  -- keybindState is made equivalent to the state sent by press or release for use in other parts of the script
+end
+local exampleKey =  keybinds:fromVanilla("key.attack")
+exampleKey.press = function()
+  pings.examplePing(true)
+end
 
+local KeyDo =  keybinds:fromVanilla("key.swapOffhand")
+exampleKey.press = function()
+  pings.examplePing(true)
+end
+
+KeyDo.press = function()
+  pings.wizardTime()
+end
+-- Here, examplePing is sending the boolean value true to the ping function
+exampleKey.release = function()
+  pings.examplePing(false)
+end
+
+pings.wizardTime = function()
+  if mVis then
+   -- sounds:playSound("wizard.ogg")
+  end
+end
 -- === Tick Event === --
 function events.tick()
- 
+  if keybindState == true then
+    animations.RepoTest.PunchTest:setPlaying(true)
+  else
+    animations.RepoTest.PunchTest:setPlaying(false)
+  end
   if queue > 0 and world.getTime() % voiceSpeechRate == 0 then
     queue = queue - 1
     if cancelPreviousSound and currentSound then currentSound:stop() end
@@ -355,8 +402,12 @@ function events.tick()
 
   if player:getPose() == "CROUCHING" then
     animations.RepoTest.crouching:play()
+    models.RepoTest.root:setPos(0,2,0)
+    models.RepoTest.root.spine.legs:setPos(0,-1.8,0)
   else
     animations.RepoTest.crouching:stop()
+    models.RepoTest.root:setPos(0,0,0)
+    models.RepoTest.root.spine.legs:setPos(0,0,0)
     animations.RepoTest.uncrouch:play()
   end
 end
