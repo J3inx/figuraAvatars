@@ -49,7 +49,7 @@ local lines = false
 local red = true
 local green = false
 local blue = false
-local skull_model = models.RepoTest.root.spine.butt.abdomen.neck.head
+
 Sred = 0.5325
     Sgreen = 0.0736
     Sblue = 0.0766  
@@ -324,18 +324,7 @@ function pings.KorboSpeak(amount)
     mouthTimer = 2
   end
 end
-function events.SKULL_RENDER(delta, block, item, entity, type)
-  if type == "BLOCK" then
-      -- Make sure it’s at normal scale/position
-      skull_model:setScale(1, 1, 1)
-      skull_model:setPos(0, 0, 0)
-      
-      -- Optional: make it visible only when a skull is being rendered
-      skull_model:setVisible(true)
-  else
-      skull_model:setVisible(false)
-  end
-end
+
 function events.chat_send_message(msg)
   
   if not msg then return end
