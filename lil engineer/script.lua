@@ -98,7 +98,7 @@ local sentryPos = vec(0,0,0)
 local sentryPosOld = vec(0,0,0)
 local sentryYaw = 0
 local sentryPitch = 0
-
+local comAllowed = false
 local sentryYawOld = 0
 local sentryPitchOld = 0
 
@@ -1011,8 +1011,9 @@ function sentryshot(leftSide)
 	--check entity still exists, just in case
 	if targetEntity then
 		--KILL
-		--host:sendChatCommand("damage " .. targetEntity:getUUID() .. " 4 minecraft:arrow by @s")
-		
+		if comAllowed then
+		host:sendChatCommand("damage " .. targetEntity:getUUID() .. " 4 minecraft:arrow by @s")
+		end
 		sounds:playSound("minecraft:item.trident.throw", sentryPos)
 		sounds:playSound("minecraft:item.crossbow.shoot", sentryPos, 0.5, 1.3)
 		
@@ -2214,6 +2215,37 @@ function events.item_render(item)
 	end
 end
 
+function events.item_render(item)
+	if item.id:find("wooden_sword") then
+		return models.model.ItemSword
+	end
+end
+function events.item_render(item)
+	if item.id:find("stone_sword") then
+		return models.model.ItemSword
+	end
+end
+function events.item_render(item)
+	if item.id:find("iron_sword") then
+		return models.model.ItemSword
+	end
+end
+function events.item_render(item)
+	if item.id:find("golden_sword") then
+		return models.model.ItemSword
+	end
+end
+function events.item_render(item)
+	if item.id:find("diamond_sword") then
+		return models.model.ItemSword
+	end
+end
+function events.item_render(item)
+	if item.id:find("netherite_sword") then
+		return models.model.ItemSword
+	end
+end
+
 function events.mouse_press(button, action, modifier)
 	if action_wheel:isEnabled() then return end
 	
@@ -2564,6 +2596,31 @@ mainPage:newAction()
 		models.model.World.Drone:setVisible(true)
     else
       models.model.World.Drone:setVisible(false)
+    end
+    
+  end)
+
+  mainPage:newAction()
+   :title("toggle goggles")
+   :toggleTitle("untoggle goggles")
+   :item("spyglass")
+   :setOnToggle(function(state)
+    if state then
+		models.root.Body._HeadMount.Head.Gogs.Drone:setVisible(true)
+    else
+		models.root.Body._HeadMount.Head.Gogs.Drone:setVisible(true)
+    end
+    
+  end)
+  mainPage:newAction()
+   :title("allow sentry to fire?")
+   :toggleTitle("stop sentry from firing")
+   :item("command_block")
+   :setOnToggle(function(state)
+    if state then
+		comAllowed = true
+    else
+		comAllowed = false
     end
     
   end)
